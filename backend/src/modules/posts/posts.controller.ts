@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundExcep
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { Post as PostEntity } from './entities/post.entity';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -10,7 +9,6 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @ApiOperation({ summary: 'Create a new post' })
-  @ApiResponse({ status: 201, description: 'The post has been successfully created.', type: PostEntity })
   @ApiResponse({ status: 400, description: 'Bad request.' })
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
@@ -18,7 +16,6 @@ export class PostsController {
   }
 
   @ApiOperation({ summary: 'Get all posts' })
-  @ApiResponse({ status: 200, description: 'Return all posts.', type: [PostEntity] })
   @ApiQuery({ name: 'isArticle', required: false, description: 'Filter by article/question type', type: Boolean })
   @Get()
   findAll(@Query('isArticle') isArticle?: boolean) {
@@ -26,7 +23,6 @@ export class PostsController {
   }
 
   @ApiOperation({ summary: 'Get a post by id' })
-  @ApiResponse({ status: 200, description: 'Return the post.', type: PostEntity })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiParam({ name: 'id', description: 'The id of the post' })
   @Get(':id')
@@ -39,7 +35,6 @@ export class PostsController {
   }
 
   @ApiOperation({ summary: 'Update a post' })
-  @ApiResponse({ status: 200, description: 'The post has been successfully updated.', type: PostEntity })
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiParam({ name: 'id', description: 'The id of the post to update' })
   @Patch(':id')

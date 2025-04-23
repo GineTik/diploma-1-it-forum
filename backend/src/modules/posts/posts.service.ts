@@ -1,56 +1,39 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { CrudService } from '../basic/crud.service';
-import { Post } from './entities/post.entity';
+import { Post } from 'generated/prisma';
 import { OpenRouterService } from 'src/common/ai/openrouter.service';
+import { PrismaService } from 'src/common/prisma/prisma.service';
 
 @Injectable()
-export class PostsService extends CrudService<Post, CreatePostDto, UpdatePostDto> {
+export class PostsService {
+  private entities: Post[] = [];
 
   constructor(
-    private readonly openRouterService: OpenRouterService
+    private readonly openRouterService: OpenRouterService,
+    private readonly prisma: PrismaService
   ) {
-    super();
 
-    this.entities = [
-      {
-        id: 1,
-        title: 'Початок роботи з NestJS',
-        content: 'NestJS - це прогресивний Node.js фреймворк для створення ефективних, надійних та масштабованих серверних додатків. Він використовує сучасний JavaScript, побудований на TypeScript та поєднує елементи ООП, ФП та ФРП.',
-        isArticle: true,
-        tags: [],
-        authorId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 2,
-        title: 'Розуміння узагальнень TypeScript',
-        content: 'Узагальнення TypeScript дозволяють нам писати багаторазовий код, який працює з різними типами. Вони допомагають нам підтримувати типобезпеку, надаючи гнучкість у нашому коді.',
-        isArticle: true,
-        tags: [],
-        authorId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 3,
-        title: 'Найкращі практики проектування REST API',
-        content: 'Проектування REST API вимагає ретельного розгляду ресурсів, кінцевих точок, HTTP методів, кодів статусу та іншого. Дотримання найкращих практик забезпечує інтуїтивність, підтримуваність та масштабованість вашого API.',
-        isArticle: true,
-        tags: [],
-        authorId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ];
+  }
+
+  async create(createPostDto: CreatePostDto): Promise<Post> {
+    throw new NotImplementedException();
   }
 
   async findAll(isArticle?: boolean): Promise<Post[]> {
-    return isArticle == null
-      ? this.entities
-      : this.entities.filter(post => post.isArticle === isArticle);
+    throw new NotImplementedException();
+  }
+
+  async findOne(id: number): Promise<Post | undefined> {
+    throw new NotImplementedException();
+  }
+
+  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post | undefined> {
+    throw new NotImplementedException();
+  }
+
+  async remove(id: number): Promise<Post | undefined> {
+    throw new NotImplementedException();
   }
 
   async makeExcerptFromContent(postId: number): Promise<string> {
