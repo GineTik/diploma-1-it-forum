@@ -17,10 +17,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useSidebarItems } from "@/hooks/use-sidebar-items"
-
+import { NavTags } from "@/components/blocks/sidebar/nav-tags"
+import { useTags } from "@/hooks/use-tags"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const data = useSidebarItems();
+  const {tags} = useTags();
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -42,6 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProfile items={data.documents} />
+        <NavTags items={tags} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
     </Sidebar>

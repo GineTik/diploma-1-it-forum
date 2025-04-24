@@ -1,3 +1,4 @@
+import { ROUTES } from "@/contants/routes.constants";
 import { IconDashboard, IconListDetails, IconCamera, IconFileDescription, IconFileAi, IconSettings, IconHelp, IconSearch, IconDatabase, IconReport, IconFileWord } from "@tabler/icons-react"
 
 export const useSidebarItems = () => {
@@ -5,12 +6,12 @@ export const useSidebarItems = () => {
         navMain: [
           {
             title: "Усі статті",
-            url: "#",
+            url: ROUTES.POSTS,
             icon: IconDashboard,
           },
           {
             title: "Усі питання",
-            url: "#",
+            url: ROUTES.QUESTIONS,
             icon: IconListDetails,
           },
         ],

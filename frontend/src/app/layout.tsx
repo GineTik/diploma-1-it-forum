@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import Header from "@/components/blocks/header";
 import { AppSidebar } from "@/components/blocks/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/blocks/site-header";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { Providers } from "./providers";
 
 const inter = Inter({
-  subsets: ["latin"],
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -36,22 +25,13 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased dark`}
       >
-        <ClerkProvider>
-          <SidebarProvider
-            style={
-              {
-                "--sidebar-width": "calc(var(--spacing) * 72)",
-                "--header-height": "calc(var(--spacing) * 12)",
-              } as React.CSSProperties
-            }
-          >
-            <AppSidebar variant="inset" />
-            <SidebarInset>
-              <SiteHeader />
-              <main>{children}</main>
-            </SidebarInset>
-          </SidebarProvider>
-        </ClerkProvider>
+        <Providers>
+          <AppSidebar variant="inset" />
+          <SidebarInset>
+            <SiteHeader />
+            <main>{children}</main>
+          </SidebarInset>
+        </Providers>
       </body>
     </html>
   );
