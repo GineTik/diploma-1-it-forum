@@ -140,6 +140,16 @@ exports.Prisma.TagScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AnswerScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isCorrect: 'isCorrect',
+  postId: 'postId',
+  authorId: 'authorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -154,7 +164,8 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   User: 'User',
   Post: 'Post',
-  Tag: 'Tag'
+  Tag: 'Tag',
+  Answer: 'Answer'
 };
 
 /**

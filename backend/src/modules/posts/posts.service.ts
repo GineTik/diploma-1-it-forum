@@ -4,6 +4,8 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from 'generated/prisma';
 import { OpenRouterService } from 'src/common/ai/openrouter.service';
 import { PostsRepository } from './posts.repository';
+import { GetQuestionDto } from './dto/get-question.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class PostsService {
@@ -33,6 +35,15 @@ export class PostsService {
 
   async findAll(isArticle?: boolean): Promise<Post[]> {
     return this.postsRepository.findAll(isArticle);
+  }
+
+  async findAllQuestions(): Promise<GetQuestionDto[]> {
+    const questions = await this.postsRepository.findAllWithIncludedAnswers(false);
+    return plainToInstance(GetQuestionDto, questions.map(question => ({
+      ...question,
+      answersCount: question.answers.length,
+      haveCorrectAnswer: question.answers.some(answer => answer.isCorrect)
+    })));
   }
 
   async findOne(id: number): Promise<Post | undefined> {

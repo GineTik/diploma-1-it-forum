@@ -17,6 +17,7 @@ datasource db {
 model User {
   id        String   @id
   posts     Post[]
+  answers   Answer[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -29,6 +30,7 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   tags      Tag[]
+  answers   Answer[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -37,6 +39,18 @@ model Tag {
   id        Int      @id @default(autoincrement())
   name      String   @unique
   posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Answer {
+  id        Int      @id @default(autoincrement())
+  content   String
+  isCorrect Boolean  @default(false)
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

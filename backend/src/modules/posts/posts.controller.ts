@@ -6,21 +6,20 @@ import { PostsService } from './posts.service';
 import { ClerkAuthGuard } from 'src/modules/user/clerk-auth.guard';
 import { ClerkId } from 'src/modules/user/clerk-id.decorator';
 import { ClerkPayloadDto } from '../user/dto/clerk-payload.dto';
+import { Auth } from '../user/combined-auth.decorator';
 
 @Controller()
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post('posts/questions')
-  @UseGuards(ClerkAuthGuard)
-  @ApiBearerAuth('JWT-auth')
+  @Auth()
   createQuestion(@Body() createPostDto: CreatePostDto, @ClerkId() user: ClerkPayloadDto) {
     return this.postsService.createQuestion(createPostDto, user.clerkId);
   }
 
   @Post('posts/articles')
-  @UseGuards(ClerkAuthGuard)
-  @ApiBearerAuth('JWT-auth')
+  @Auth()
   createArticle(@Body() createPostDto: CreatePostDto, @ClerkId() user: ClerkPayloadDto) {
     return this.postsService.createArticle(createPostDto, user.clerkId);
   }
@@ -32,7 +31,7 @@ export class PostsController {
 
   @Get('posts/questions')
   findAllQuestions() {
-    return this.postsService.findAll(false);
+    return this.postsService.findAllQuestions();
   }
 
   @Get('posts/:id')
@@ -45,6 +44,7 @@ export class PostsController {
   }
 
   @Patch('posts/:id')
+  @Auth()
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     const post = this.postsService.update(+id, updatePostDto);
     if (!post) {
@@ -54,6 +54,7 @@ export class PostsController {
   }
 
   @Delete('posts/:id')
+  @Auth()
   remove(@Param('id') id: string) {
     const post = this.postsService.remove(+id);
     if (!post) {
