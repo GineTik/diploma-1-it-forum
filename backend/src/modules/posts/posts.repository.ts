@@ -25,6 +25,7 @@ export class PostsRepository {
   }
 
   public async create(post: CreatePostWithAuthorIdDto): Promise<Post> {
+    console.log(post);
     return this.prisma.post.create({ data: {
         ...post, 
         tags: { 

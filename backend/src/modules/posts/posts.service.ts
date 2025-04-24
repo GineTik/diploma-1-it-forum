@@ -18,6 +18,7 @@ export class PostsService {
   }
 
   async createQuestion(createPostDto: CreatePostDto, id: string): Promise<Post> {
+    console.log(createPostDto, id);
     return this.postsRepository.create({
       ...createPostDto,
       authorId: id,

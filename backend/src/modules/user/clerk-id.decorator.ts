@@ -6,6 +6,6 @@ export const ClerkId = createParamDecorator(async (_, ctx: ExecutionContext) => 
   
   if (!request[CLERK_DATA_KEY]) throw new Error('Clerk data not found in request');
 
-  console.log(request[CLERK_DATA_KEY].clerkId);
+  request[CLERK_DATA_KEY].clerkId = request[CLERK_DATA_KEY].sub;
   return request[CLERK_DATA_KEY];
 });

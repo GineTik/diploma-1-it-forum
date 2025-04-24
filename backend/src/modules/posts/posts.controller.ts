@@ -15,6 +15,7 @@ export class PostsController {
   @Post('posts/questions')
   @Auth()
   createQuestion(@Body() createPostDto: CreatePostDto, @ClerkId() user: ClerkPayloadDto) {
+    console.log(createPostDto, user);
     return this.postsService.createQuestion(createPostDto, user.clerkId);
   }
 

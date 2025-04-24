@@ -19,6 +19,8 @@ export interface QuestionItemProps {
     ({ id, title, haveCorrectAnswer, answersCount = 0, tags, className }, ref) => {
       const { summarizedPostContent, summarizePost, isSummarizing, summarizeError } = usePostsActions();
 
+      console.log(summarizedPostContent);
+
       return (
         <Card
           ref={ref}
@@ -65,8 +67,9 @@ export interface QuestionItemProps {
                 </Button>
               </div>
 
-              <div>
-                {summarizedPostContent}
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Model: Mistral 7B Instruct</p>
+                <p>{summarizedPostContent}</p>
               </div>
 
             </div>

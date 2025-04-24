@@ -46,19 +46,12 @@ export class TagsService {
     return await this.tagsRepository.remove(id);
   }
   
-  public async recommend(postId: number): Promise<Tag[]> {
-    const post = await this.postsService.findOne(postId);
-    if (!post) {
-      throw new NotFoundException(`Post with ID ${postId} not found`);
-    }
-
-    const postTags = await this.findByPostId(postId);
+  public async recommend(title: string, content: string): Promise<Tag[]> {
     const availableTags = await this.findAll();
 
     const prompt = `
       You are given a post and you need to recommend tags for it.
-      The post title is "${post.title}", the post content is "${post.content}"
-      The tags are: ${postTags?.map(t => t.name).join(', ') ?? 'none'}
+      The post title is "${title}", the post content is "${content}"
       Available tags are: ${availableTags.map(t => t.name).join(', ')}
       You need to recommend tags from the available tags.
       You need to recommend tags that are related to the post.
