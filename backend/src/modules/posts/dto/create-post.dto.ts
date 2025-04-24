@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 
-export class CreatePostDto {
+export class CreatePostWithAuthorIdDto {
   @ApiProperty({ 
     description: 'Title of the post',
     example: 'Introduction to NestJS'
@@ -20,16 +20,11 @@ export class CreatePostDto {
   })
   isArticle: boolean;
 
-  @ApiProperty({ 
-    description: 'Author of the post',
-    example: 'John Doe'
-  })
-  author: string;
+  authorId: string;
 
-  @ApiProperty({ 
-    description: 'Tags related to the post',
-    type: [String],
-    example: ['nestjs', 'javascript', 'backend']
-  })
-  tags: string[];
+  tags: number[];
 } 
+
+export class CreatePostDto extends OmitType(CreatePostWithAuthorIdDto, ['authorId', 'isArticle']) {
+
+}

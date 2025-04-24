@@ -3,37 +3,52 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from 'generated/prisma';
 import { OpenRouterService } from 'src/common/ai/openrouter.service';
-import { PrismaService } from 'src/common/prisma/prisma.service';
+import { PostsRepository } from './posts.repository';
 
 @Injectable()
 export class PostsService {
-  private entities: Post[] = [];
 
   constructor(
     private readonly openRouterService: OpenRouterService,
-    private readonly prisma: PrismaService
+    private readonly postsRepository: PostsRepository,
   ) {
 
   }
 
-  async create(createPostDto: CreatePostDto): Promise<Post> {
-    throw new NotImplementedException();
+  async createQuestion(createPostDto: CreatePostDto, id: string): Promise<Post> {
+    return this.postsRepository.create({
+      ...createPostDto,
+      authorId: id,
+      isArticle: false
+    });
+  }
+
+  async createArticle(createPostDto: CreatePostDto, id: string): Promise<Post> {
+    return this.postsRepository.create({
+      ...createPostDto,
+      authorId: id,
+      isArticle: true
+    });
   }
 
   async findAll(isArticle?: boolean): Promise<Post[]> {
-    throw new NotImplementedException();
+    return this.postsRepository.findAll(isArticle);
   }
 
   async findOne(id: number): Promise<Post | undefined> {
-    throw new NotImplementedException();
+    return this.postsRepository.findOne(id);
+  }
+
+  async findAllByAuthorId(authorId: string): Promise<Post[]> {
+    return this.postsRepository.findAllByAuthorId(authorId);
   }
 
   async update(id: number, updatePostDto: UpdatePostDto): Promise<Post | undefined> {
-    throw new NotImplementedException();
+    return this.postsRepository.update(id, updatePostDto);
   }
 
   async remove(id: number): Promise<Post | undefined> {
-    throw new NotImplementedException();
+    return this.postsRepository.remove(id);
   }
 
   async makeExcerptFromContent(postId: number): Promise<string> {

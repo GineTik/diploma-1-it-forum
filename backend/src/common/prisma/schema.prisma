@@ -15,9 +15,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  clerkId   Int
-  email     String   @unique
+  id        String   @id
   posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,7 +27,7 @@ model Post {
   content   String
   isArticle Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  authorId  String
   tags      Tag[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

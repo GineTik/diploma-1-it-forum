@@ -22,11 +22,5 @@ export class UpdatePostDto {
   })
   isArticle?: boolean;
 
-  @ApiProperty({ 
-    description: 'Tags related to the post',
-    type: [String],
-    example: ['nestjs', 'typescript', 'backend'],
-    required: false
-  })
-  tags?: string[];
+  tags?: number[];
 } 
