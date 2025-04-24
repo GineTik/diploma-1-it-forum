@@ -6,7 +6,7 @@ export const useSidebarItems = () => {
         navMain: [
           {
             title: "Усі статті",
-            url: ROUTES.POSTS,
+            url: ROUTES.ARTICLES,
             icon: IconDashboard,
           },
           {

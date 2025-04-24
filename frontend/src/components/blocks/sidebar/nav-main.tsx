@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { ROUTES } from "@/contants/routes.constants"
 
 export function NavMain({
   items,
@@ -29,16 +30,22 @@ export function NavMain({
             <Button
               variant="default"
               className="w-full"
+              asChild
             >
-              <IconCirclePlusFilled />
-              <span>Задати питання</span>
+              <Link href={ROUTES.QUESTIONS_FORM}>
+                <IconCirclePlusFilled />
+                <span>Задати питання</span>
+              </Link>
             </Button>
             <Button
               className="w-full group-data-[collapsible=icon]:opacity-0"
               variant="outline"
+              asChild
             >
-              <IconMail />
-              <span className="">Написати статтю</span>
+              <Link href={ROUTES.ARTICLES_FORM}>
+                <IconMail />
+                <span>Написати статтю</span>
+              </Link>
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>

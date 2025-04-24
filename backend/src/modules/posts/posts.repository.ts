@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
-import { Answer, Post } from '../../../generated/prisma';
+import { Answer, Post, Tag } from '../../../generated/prisma';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CreatePostWithAuthorIdDto } from './dto/create-post.dto';
 
-type GetPost = Post & { answers: Answer[] };
+type GetPost = Post & { answers: Answer[], tags: Tag[] };
 
 @Injectable()
 export class PostsRepository {
@@ -16,8 +16,8 @@ export class PostsRepository {
     return this.prisma.post.findMany({ where: { isArticle } });
   }
 
-  public async findAllWithIncludedAnswers(isArticle?: boolean): Promise<GetPost[]> {
-    return this.prisma.post.findMany({ where: { isArticle }, include: { answers: true } });
+  public async findAllWithIncludedRelations(isArticle?: boolean): Promise<GetPost[]> {
+    return this.prisma.post.findMany({ where: { isArticle }, include: { answers: true, tags: true } });
   }
 
   public async findOne(id: number): Promise<Post> {

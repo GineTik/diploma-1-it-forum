@@ -1,23 +1,28 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { usePostsActions } from "@/hooks/posts/use-posts-actions";
 import { cn } from "@/lib/utils";
-import { Check, X, MessageCircle, Tag } from "lucide-react";
+import { Check, X, MessageCircle, Tag, Sparkles, Loader2 } from "lucide-react";
 import { forwardRef } from "react";
 
 export interface QuestionItemProps {
+  id: number;
   title: string;
   haveCorrectAnswer: boolean;
   answersCount?: number;
-  tags: string[];
+  tags: { name: string }[];
   className?: string;
 }
   
   export const QuestionItem = forwardRef<HTMLDivElement, QuestionItemProps>(
-    ({ title, haveCorrectAnswer, answersCount = 0, tags, className }, ref) => {
+    ({ id, title, haveCorrectAnswer, answersCount = 0, tags, className }, ref) => {
+      const { summarizedPostContent, summarizePost, isSummarizing, summarizeError } = usePostsActions();
+
       return (
         <Card
           ref={ref}
-          className={cn("mb-4 transition-all p-0 border-transparent cursor-pointer hover:border-neutral-700", className)}
+          className={cn("rounded-[.5rem] mb-4 transition-all p-0 border-transparent cursor-pointer hover:border-neutral-300 hover:dark:border-neutral-700", className)}
         >
           <CardContent className="px-4 py-3">
             <div className="flex flex-col space-y-1">
@@ -50,11 +55,20 @@ export interface QuestionItemProps {
                       className="flex items-center"
                       icon={<Tag size={10} />}
                     >
-                      {tag}
+                      {tag.name}
                     </Badge>
                   ))}
                 </div>
+                <Button variant="outline" onClick={() => summarizePost(id)}>
+                  {isSummarizing ? <Loader2 className="animate-spin" size={12} /> : <Sparkles size={12} />}
+                  Підсумувати
+                </Button>
               </div>
+
+              <div>
+                {summarizedPostContent}
+              </div>
+
             </div>
           </CardContent>
         </Card>

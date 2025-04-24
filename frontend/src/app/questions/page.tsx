@@ -2,8 +2,8 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { QuestionItem, QuestionItemProps } from "@/components/blocks/questions/question-item";
-import { usePosts } from "@/hooks/use-posts";
+import { QuestionItem, QuestionItemProps } from "@/components/blocks/posts/questions/question-item";
+import { usePosts } from "@/hooks/posts/use-posts";
 
 interface QuestionListProps {
   questions: QuestionItemProps[];
@@ -21,11 +21,11 @@ const QuestionList: React.FC<QuestionListProps> = ({ questions, className }) => 
 };
 
 export default function QuestionsPage() {
-  const {posts} = usePosts();
+  const {questions} = usePosts();
 
   return (
     <div className="container mx-auto p-6 max-w-3xl">
-      <QuestionList questions={posts} />
+      <QuestionList questions={questions} />
     </div>
   );
 }

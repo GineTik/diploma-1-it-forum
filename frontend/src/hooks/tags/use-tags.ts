@@ -1,7 +1,8 @@
+import { Tag } from '@/types/tags.type'
 import { useQuery } from '@tanstack/react-query'
 
 export const useTags = () => {
-  const { data: tags = [] } = useQuery({
+  const { data: tags = [], isLoading: isTagsLoading } = useQuery({
     queryKey: ['tags'],
     queryFn: async () => {
       const response = await fetch('http://localhost:3001/tags')
@@ -12,5 +13,5 @@ export const useTags = () => {
     }
   })
   
-  return {tags}
+  return {tags: tags as Tag[], isTagsLoading}
 }

@@ -5,7 +5,7 @@ import {
   IconInnerShadowTop,
 } from "@tabler/icons-react"
 
-import { NavProfile } from "@/components/blocks/sidebar/nav-documents"
+import { NavProfile } from "@/components/blocks/sidebar/nav-profile"
 import { NavMain } from "@/components/blocks/sidebar/nav-main"
 import { NavSecondary } from "@/components/blocks/sidebar/nav-secondary"
 import {
@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/sidebar"
 import { useSidebarItems } from "@/hooks/use-sidebar-items"
 import { NavTags } from "@/components/blocks/sidebar/nav-tags"
-import { useTags } from "@/hooks/use-tags"
+import { useTags } from "@/hooks/tags/use-tags"
+import { SignedIn } from "@clerk/nextjs"
+import { ROUTES } from "@/contants/routes.constants"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const data = useSidebarItems();
@@ -33,7 +35,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <a href={ROUTES.HOME}>
                 <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">IT Forum.</span>
               </a>
@@ -43,7 +45,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProfile items={data.documents} />
+        <SignedIn>
+          <NavProfile items={data.documents} />
+        </SignedIn>
         <NavTags items={tags} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

@@ -1,4 +1,5 @@
 import { Expose } from "class-transformer";
+import { Tag } from "generated/prisma";
 
 export class GetQuestionDto {
     @Expose()
@@ -27,4 +28,7 @@ export class GetQuestionDto {
 
     @Expose()
     answersCount: number;
+
+    @Expose()
+    tags: Tag[];
 }

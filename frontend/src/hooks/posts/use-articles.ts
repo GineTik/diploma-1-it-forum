@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 
-export const usePosts = () => {
-  const { data: posts = [] } = useQuery({
+export const useArticles = () => {
+
+  const { data: articles = [] } = useQuery({
     queryKey: ['posts'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3001/posts/questions')
+      const response = await fetch('http://localhost:3001/posts/articles')
       if (!response.ok) {
         throw new Error('Failed to fetch posts')
       }
@@ -12,5 +13,5 @@ export const usePosts = () => {
     }
   })
   
-  return {posts}
+  return {articles}
 }

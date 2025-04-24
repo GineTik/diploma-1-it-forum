@@ -38,11 +38,12 @@ export class PostsService {
   }
 
   async findAllQuestions(): Promise<GetQuestionDto[]> {
-    const questions = await this.postsRepository.findAllWithIncludedAnswers(false);
+    const questions = await this.postsRepository.findAllWithIncludedRelations(false);
     return plainToInstance(GetQuestionDto, questions.map(question => ({
       ...question,
       answersCount: question.answers.length,
-      haveCorrectAnswer: question.answers.some(answer => answer.isCorrect)
+      haveCorrectAnswer: question.answers.some(answer => answer.isCorrect),
+      tags: question.tags
     })));
   }
 
