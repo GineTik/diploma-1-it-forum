@@ -64,18 +64,19 @@ function AnswerItem({answer, postAuthorId}: AnswerItemProps) {
                 </Badge>
             )}
             <div className="flex gap-2 items-center flex-wrap">
-                <Avatar className="">
-                    <AvatarImage src={user.imageUrl} className="size-7 rounded-full" />
+                {user && <>
+                    <Avatar className="">
+                    <AvatarImage src={user?.imageUrl} className="size-7 rounded-full" />
                     <AvatarFallback>
-                        {user.username?.slice(0, 2)}
+                        {user?.username?.slice(0, 2)}
                     </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                    <span className="text-sm font-medium">@{user.username}</span>
+                    <span className="text-sm font-medium">@{user?.username}</span>
                     <span className="text-xs text-muted-foreground">
-                        {user.firstName} {user.lastName}
+                        {user?.firstName} {user?.lastName}
                     </span>
-                </div>
+                </div></>}
                 {answer.authorId === postAuthorId && (
                     <Badge variant="secondary">
                         Автор питання
