@@ -3,6 +3,7 @@ import { UserRepository } from './user.repository';
 import { User } from 'generated/prisma';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ClerkPayloadDto } from './dto/clerk-payload.dto';
+import { clerkClient } from '@clerk/express';
 
 @Injectable()
 export class UserService {
@@ -16,5 +17,9 @@ export class UserService {
 
   public async findOneById(id: string) {
     return this.userRepository.findOneById(id);
+  }
+
+  public async fetchUserData(clerkId: string) {
+    return await clerkClient.users.getUser(clerkId);
   }
 }

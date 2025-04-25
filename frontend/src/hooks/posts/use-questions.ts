@@ -1,11 +1,11 @@
-import { QuestionsService } from '@/services/questions.service'
+import { QUESTIONS_SERVICE } from '@/services/questions.service'
 import { Post } from '@/types/posts.types'
 import { useQuery } from '@tanstack/react-query'
 
 export const useQuestions = () => {
   const { data: questions = [] } = useQuery({
     queryKey: ['questions'],
-    queryFn: async () => await QuestionsService.getAll()
+    queryFn: async () => await QUESTIONS_SERVICE.getAll()
   })
   
   return {questions: questions as Post[]}
@@ -14,7 +14,7 @@ export const useQuestions = () => {
 export const useQuestion = (id: number) => {
   const { data: post = {}, isLoading } = useQuery({
     queryKey: ['questions', id],
-    queryFn: async () => await QuestionsService.getOneById(id)
+    queryFn: async () => await QUESTIONS_SERVICE.getOneById(id)
   })
   
   return {

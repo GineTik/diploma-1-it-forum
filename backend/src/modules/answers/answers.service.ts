@@ -3,6 +3,7 @@ import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { AnswerInput, AnswersRepository } from './answers.repository';
 import { PostsService } from '../posts/posts.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AnswersService {
@@ -50,7 +51,7 @@ export class AnswersService {
     } as AnswerInput);
   }
 
-  findAllByPostId(postId: number) {
-    return this.answersRepository.findAllByPostId(postId);
+  async findAllByPostId(postId: number) {
+    return await this.answersRepository.findAllByPostId(postId);
   }
 }

@@ -19,4 +19,4 @@ export class AnswersServiceClass {
     }
 }
 
-export const AnswersService = new AnswersServiceClass();
+export const ANSWERS_SERVICE = new AnswersServiceClass();

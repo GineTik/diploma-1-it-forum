@@ -15,4 +15,4 @@ export class ArticlesServiceClass {
     }
 }
 
-export const ArticlesService = new ArticlesServiceClass();
+export const ARTICLE_SERVICE = new ArticlesServiceClass();

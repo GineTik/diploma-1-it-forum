@@ -23,4 +23,4 @@ export class QuestionsServiceClass {
     }
 }
 
-export const QuestionsService = new QuestionsServiceClass();
+export const QUESTIONS_SERVICE = new QuestionsServiceClass();

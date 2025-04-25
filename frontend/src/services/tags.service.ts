@@ -11,4 +11,4 @@ export class TagsServiceClass {
     }
 }
 
-export const TagsService = new TagsServiceClass();
+export const TAGS_SERVICE = new TagsServiceClass();
