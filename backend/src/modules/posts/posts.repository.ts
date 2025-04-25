@@ -20,8 +20,8 @@ export class PostsRepository {
     return this.prisma.post.findMany({ where: { isArticle }, include: { answers: true, tags: true } });
   }
 
-  public async findOne(id: number): Promise<Post> {
-    return this.prisma.post.findUnique({ where: { id } });
+  public async findOneWithTags(id: number): Promise<Post> {
+    return this.prisma.post.findUnique({ where: { id }, include: { tags: true } });
   }
 
   public async create(post: CreatePostWithAuthorIdDto): Promise<Post> {
@@ -57,7 +57,7 @@ export class PostsRepository {
   }
 
   public async exists(id: number): Promise<boolean> {
-    const post = await this.findOne(id);
+    const post = await this.findOneWithTags(id);
     return !!post;
   }
 

@@ -6,25 +6,45 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import MultipleSelector, { MultiselectOption } from "@/components/ui/multiselect";
 import { Textarea } from "@/components/ui/textarea";
+import { ROUTES } from "@/contants/routes.constants";
 import { usePostsActions } from "@/hooks/posts/use-posts-actions";
 import { useTags } from "@/hooks/tags/use-tags";
 import { useTagsActions } from "@/hooks/tags/use-tags-actions";
 import { Tag } from "@/types/tags.type";
 import { Loader2, Send, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 export default function QuestionsFormPage() {
+    const router = useRouter();
     const {tags, isTagsLoading} = useTags();
     const {recomendedTags, isRecommendTagsLoading, recommendTags, resetRecommendTags} = useTagsActions();
-    const {createQuestion, isCreatingQuestion, createQuestionError} = usePostsActions();
-    const form = useForm({
+    const {createQuestionAsync, isCreatingQuestion} = usePostsActions();
+
+    const questionSchema = z.object({
+        title: z.string().min(1, 'Назва є обов\'язковим полем').max(200, 'Назва є занадто довгою'),
+        contentProblem: z.string().min(1, 'Опис проблеми є обов\'язковим полем'),
+        contentTried: z.string().optional(),
+        tags: z.array(z.object({
+            id: z.number(),
+            name: z.string()
+        })).min(1, 'Необхідно додати хоча б один тег, але не більше 5-ти')
+           .max(5, 'Необхідно додати не більше 5-ти тегів')
+    });
+
+    type QuestionFormData = z.infer<typeof questionSchema>;
+
+    const form = useForm<QuestionFormData>({
         defaultValues: {
             title: '',
             contentProblem: '',
             contentTried: '',
             tags: [] as Tag[],
         },
+        resolver: zodResolver(questionSchema)
     });
 
     const applyRecommendedTags = useCallback(() => {
@@ -41,12 +61,16 @@ export default function QuestionsFormPage() {
     }, [tags]);
 
     const submitPost = useCallback(() => {
-        createQuestion({
+        createQuestionAsync({
             title: form.getValues('title'),
             content: form.getValues('contentProblem') + form.getValues('contentTried'),
             tags: form.getValues('tags').map(tag => tag.id),
+        }).then(question => {
+            router.push(ROUTES.QUESTION(question.id));
         });
     }, [form]);
+
+
 
     return (
         <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
@@ -92,8 +116,8 @@ export default function QuestionsFormPage() {
                     <Button size='sm' variant='outline' onClick={applyRecommendedTags}>Примінити</Button>
                 </div>}
             </PostFormBlock>
-            <div className="flex justify-end" onClick={submitPost}>
-                <Button variant="default" className="flex items-center">
+            <div className="flex justify-end">
+                <Button variant="default" className="flex items-center" onClick={submitPost}>
                     {isCreatingQuestion ? <Loader2 className="animate-spin" size={12} /> : 'Опублікувати'}
                 </Button>
             </div>

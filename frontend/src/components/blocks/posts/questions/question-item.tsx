@@ -1,18 +1,18 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ROUTES } from "@/contants/routes.constants";
 import { usePostsActions } from "@/hooks/posts/use-posts-actions";
 import { cn } from "@/lib/utils";
-import { Check, X, MessageCircle, Tag, Sparkles, Loader2 } from "lucide-react";
+import { Post } from "@/types/posts.types";
+import { Check, MessageCircle, Tag, Sparkles, Loader2 } from "lucide-react";
+import Link from "next/link";
 import { forwardRef } from "react";
 
-export interface QuestionItemProps {
-  id: number;
-  title: string;
-  haveCorrectAnswer: boolean;
+export type QuestionItemProps = Post & {
   answersCount?: number;
-  tags: { name: string }[];
   className?: string;
+  haveCorrectAnswer?: boolean;
 }
   
   export const QuestionItem = forwardRef<HTMLDivElement, QuestionItemProps>(
@@ -24,11 +24,13 @@ export interface QuestionItemProps {
       return (
         <Card
           ref={ref}
-          className={cn("rounded-[.5rem] mb-4 transition-all p-0 border-transparent cursor-pointer hover:border-neutral-300 hover:dark:border-neutral-700", className)}
+          className={cn("rounded-[.5rem] mb-4 transition-all p-0 border-transparent hover:border-neutral-300 hover:dark:border-neutral-700", className)}
         >
           <CardContent className="px-4 py-3">
             <div className="flex flex-col space-y-1">
-              <h3 className="text-lg font-medium text-foreground">{title}</h3>
+              <Link href={ROUTES.QUESTION(id)}>
+                <h3 className="text-lg font-medium text-foreground hover:underline">{title}</h3>
+              </Link>
               
               <div className="flex flex-wrap items-center gap-2">
                 <div className="flex items-center">
@@ -67,10 +69,10 @@ export interface QuestionItemProps {
                 </Button>
               </div>
 
-              <div className="space-y-1">
+              {summarizedPostContent && <div className="space-y-1">
                 <p className="text-xs text-muted-foreground">Model: Mistral 7B Instruct</p>
                 <p>{summarizedPostContent}</p>
-              </div>
+              </div>}
 
             </div>
           </CardContent>

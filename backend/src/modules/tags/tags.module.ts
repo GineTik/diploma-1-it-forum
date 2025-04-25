@@ -9,7 +9,7 @@ import { PrismaModule } from 'src/common/prisma/prisma.module';
 @Module({
   controllers: [TagsController],
   providers: [TagsService, TagsRepository],
-  imports: [AiModule, PostsModule, PrismaModule],
+  imports: [AiModule, PrismaModule],
   exports: [TagsService]
 })
 export class TagsModule {}

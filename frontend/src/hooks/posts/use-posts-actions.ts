@@ -1,4 +1,4 @@
-import { CreatePost } from "@/types/posts.types";
+import { CreatePost, Post } from "@/types/posts.types";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from '@clerk/nextjs';
 
@@ -16,7 +16,7 @@ export const usePostsActions = () => {
     }
   });
 
-  const createQuestionMutation = useMutation({
+  const createQuestionMutation = useMutation<Post, Error, CreatePost>({
     mutationKey: ['createQuestion'],
     mutationFn: async (post: CreatePost) => {
       const token = await getToken();
@@ -28,7 +28,10 @@ export const usePostsActions = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      return response.json();
+      if (!response.ok) {
+        throw new Error('Failed to create question');
+      }
+      return await response.json();
     }
   });
 
@@ -38,6 +41,7 @@ export const usePostsActions = () => {
     isSummarizing: summarizePostMutation.isPending,
     summarizeError: summarizePostMutation.error,
     createQuestion: (post: CreatePost) => createQuestionMutation.mutate(post),
+    createQuestionAsync: (post: CreatePost) => createQuestionMutation.mutateAsync(post),
     isCreatingQuestion: createQuestionMutation.isPending,
     createQuestionError: createQuestionMutation.error,
   };

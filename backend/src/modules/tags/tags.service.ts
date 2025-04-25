@@ -12,7 +12,6 @@ export class TagsService {
 
   constructor(
     private readonly openRouterService: OpenRouterService,
-    private readonly postsService: PostsService,
     private readonly tagsRepository: TagsRepository
   ) {}
 

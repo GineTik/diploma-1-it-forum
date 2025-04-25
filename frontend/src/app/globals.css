@@ -42,6 +42,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-success: var(--success);
+  --color-code-background: var(--code-background);
 }
 
 :root {
@@ -78,6 +79,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --success: #16a34a;
+  --code-background: #eeeeee;
 }
 
 .dark {
@@ -113,6 +115,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --success: #22c55e;
+  --code-background: #1f2937;
 }
 
 @layer base {

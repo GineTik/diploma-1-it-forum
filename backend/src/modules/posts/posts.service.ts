@@ -49,7 +49,7 @@ export class PostsService {
   }
 
   async findOne(id: number): Promise<Post | undefined> {
-    return this.postsRepository.findOne(id);
+    return this.postsRepository.findOneWithTags(id);
   }
 
   async findAllByAuthorId(authorId: string): Promise<Post[]> {
