@@ -7,7 +7,7 @@ type QuestionAuthorPanelProps = {
     authorId: string;
 }
 
-export default function QuestionAuthorPanel({postId, authorId}: QuestionAuthorPanelProps) {
+export default function QuestionAuthorPanel({authorId}: QuestionAuthorPanelProps) {
     const {userId} = useAuth();
 
     if (userId != authorId) {

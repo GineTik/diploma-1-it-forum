@@ -1,19 +1,18 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Check, X, MessageCircle, Tag } from "lucide-react";
+import { Tag } from "@/types/tags.type";
+import { MessageCircle, TagIcon } from "lucide-react";
 import { forwardRef } from "react";
 
-export interface ArticleItemProps {
+export type ArticleItemProps = {
   title: string;
-  haveCorrectAnswer: boolean;
-  answersCount?: number;
-  tags: { name: string }[];
+  tags: Tag[];
   className?: string;
 }
   
 export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
-({ title, haveCorrectAnswer, answersCount = 0, tags, className }, ref) => {
+({ title, tags, className }, ref) => {
     return (
     <Card
         ref={ref}
@@ -25,33 +24,22 @@ export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
             
             <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center">
-                {haveCorrectAnswer && (
-                    <Badge 
-                        variant="success"
-                        className="mr-2"
-                        icon={<Check size={12} />}
-                    >
-                        Відповідь знайдена
-                    </Badge>
-                )}
-                
                 <div className="flex items-center text-sm text-muted-foreground">
-                <MessageCircle size={14} className="mr-1" />
-                <span>{answersCount} {answersCount === 1 ? "відповідь" : answersCount > 5 ? "відповідей" : "відповіді"}</span>
+                    <MessageCircle size={14} className="mr-1" />
                 </div>
             </div>
             
             <div className="flex flex-wrap gap-1 ml-auto">
                 {tags?.map((tag, index) => (
-                <Badge 
-                    key={index} 
-                    variant="secondary"
-                    size="small"
-                    className="flex items-center"
-                    icon={<Tag size={10} />}
-                >
-                    {tag.name}
-                </Badge>
+                    <Badge 
+                        key={index} 
+                        variant="secondary"
+                        size="small"
+                        className="flex items-center"
+                        icon={<TagIcon size={10} />}
+                    >
+                        {tag.name}
+                    </Badge>
                 ))}
             </div>
             </div>
@@ -59,5 +47,6 @@ export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
         </CardContent>
     </Card>
     );
-}
-);
+});
+
+ArticleItem.displayName = "ArticleItem";

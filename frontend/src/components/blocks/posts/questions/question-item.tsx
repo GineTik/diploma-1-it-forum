@@ -17,7 +17,7 @@ export type QuestionItemProps = Post & {
   
   export const QuestionItem = forwardRef<HTMLDivElement, QuestionItemProps>(
     ({ id, title, haveCorrectAnswer, answersCount = 0, tags, className }, ref) => {
-      const { summarizedPostContent, summarizePost, isSummarizing, summarizeError } = usePostsActions();
+      const { summarizedPostContent, summarizePost, isSummarizing } = usePostsActions();
 
       console.log(summarizedPostContent);
 

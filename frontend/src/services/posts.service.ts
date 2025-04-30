@@ -1,9 +1,9 @@
 import { api } from "@/lib/api";
 import { getAuthHeaders } from "@/lib/get-jwt-token";
-import { Answer } from "@/types/answers.types";
+import { AnswerResponse } from "@/types/answers.types";
 
 export class PostsServiceClass {
-    public async summarizePost(postId: number, token: string | null): Promise<Answer[]> {
+    public async summarizePost(postId: number, token: string | null): Promise<AnswerResponse[]> {
         return await api.get(`posts/${postId}/ai/excerpt`, getAuthHeaders(token));
     }
 }

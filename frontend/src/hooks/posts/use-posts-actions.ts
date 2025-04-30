@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuth } from '@clerk/nextjs';
 import { POSTS_SERVICE } from "@/services/posts.service";
 import { QUESTIONS_SERVICE } from "@/services/questions.service";
-import { AxiosResponse } from "axios";
 
 export const usePostsActions = () => {
   const { getToken } = useAuth();
@@ -19,7 +18,7 @@ export const usePostsActions = () => {
   });
 
   return {
-    summarizedPostContent: summarizePostMutation.data,
+    summarizedPostContent: summarizePostMutation.data as unknown as string,
     summarizePost: (articleId: number) => summarizePostMutation.mutate(articleId),
     isSummarizing: summarizePostMutation.isPending,
     summarizeError: summarizePostMutation.error,

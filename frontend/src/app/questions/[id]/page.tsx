@@ -5,19 +5,15 @@ import { useQuestion } from "@/hooks/posts/use-questions";
 import { useParams } from "next/navigation";
 import Markdown from 'react-markdown';
 import styles from './page.module.scss';
-import { BadgeIcon, Loader2, Pencil, Tag, Trash } from "lucide-react";
+import { Loader2, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
 import QuestionAuthorPanel from "@/components/blocks/posts/questions/question-author-panel";
 import QuestionAnswers from "@/components/blocks/posts/questions/question-answers";
-import { Textarea } from "@/components/ui/textarea";
 import QuestionAnswerForm from "@/components/blocks/posts/questions/question-answer-form";
 
 export default function QuestionPage() {
     const {id} = useParams();
     const {post, isPostLoading} = useQuestion(Number(id));
-    const {userId} = useAuth();
 
     if (isPostLoading) {
         return <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">

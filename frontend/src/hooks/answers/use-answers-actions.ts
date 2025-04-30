@@ -8,7 +8,7 @@ export const useCreateAnswer = (postId: number) => {
     const {getToken} = useAuth();
     const {mutate: createAnswer, isPending: isCreatingAnswer} = useMutation({
         mutationFn: async (answer: AnswerRequest) => ANSWERS_SERVICE.create(postId, answer, await getToken()),
-        onSuccess(data, variables, context) {
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['answers', postId]});
         },
     })
@@ -23,7 +23,7 @@ export const useDeleteAnswer = (answerId: number) => {
     const {getToken} = useAuth();
     const {mutate: deleteAnswer, isPending: isDeletingAnswer} = useMutation({
         mutationFn: async () => ANSWERS_SERVICE.delete(answerId, await getToken()),
-        onSuccess(data, variables, context) {
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['answers']});
         },
     })

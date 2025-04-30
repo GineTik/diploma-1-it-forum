@@ -11,9 +11,9 @@ import { usePostsActions } from "@/hooks/posts/use-posts-actions";
 import { useTags } from "@/hooks/tags/use-tags";
 import { useRecommendTags } from "@/hooks/tags/use-recommend-tags";
 import { Tag } from "@/types/tags.type";
-import { Loader2, Send, Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -42,11 +42,6 @@ export default function QuestionsFormPage() {
         resolver: zodResolver(questionSchema)
     });
 
-    const applyRecommendedTags = useCallback(() => {
-        form.setValue('tags', parseOptionsToTags(parseTagsToOptions(recomendedTags)));
-        resetRecommendTags();
-    }, [recomendedTags]);
-
     const parseTagsToOptions = useCallback((tags: Tag[]): MultiselectOption[] => {
         return tags.map(tag => ({label: tag.name, value: tag.name}));
     }, []);
@@ -54,6 +49,11 @@ export default function QuestionsFormPage() {
     const parseOptionsToTags = useCallback((options: MultiselectOption[]): Tag[] => {
         return options.map(option => tags.find(tag => tag.name === option.value)).filter(tag => tag !== undefined);
     }, [tags]);
+
+    const applyRecommendedTags = useCallback(() => {
+        form.setValue('tags', parseOptionsToTags(parseTagsToOptions(recomendedTags)));
+        resetRecommendTags();
+    }, [recomendedTags, form, resetRecommendTags, parseOptionsToTags, parseTagsToOptions]);
 
     const submitPost = useCallback(() => {
         createQuestionAsync({
@@ -63,7 +63,7 @@ export default function QuestionsFormPage() {
         }).then(({id}) => {
             router.push(ROUTES.QUESTION(id));
         });
-    }, [form]);
+    }, [form, createQuestionAsync, router]);
 
     return (
         <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
