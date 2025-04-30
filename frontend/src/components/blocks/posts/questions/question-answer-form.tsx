@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import PostFormBlock from "../post-form-block";
-import { SignedIn, useAuth } from "@clerk/nextjs";
-import { useParams } from "next/navigation";
+import { SignedIn } from "@clerk/nextjs";
 import { useCreateAnswer } from "@/hooks/answers/use-answers-actions";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { z } from "zod";
+import { AnswerRequest, AnswerRequestSchema } from "@/types/answers.types";
 
 type QuestionAnswerFormProps = {
     postId: number;
@@ -16,17 +16,14 @@ type QuestionAnswerFormProps = {
 export default function QuestionAnswerForm({postId}: QuestionAnswerFormProps) {
     const {createAnswer, isCreatingAnswer} = useCreateAnswer(Number(postId))
 
-    const zodSchema = z.object({
-        content: z.string().min(1),
-    })
-
-    const form = useForm<z.infer<typeof zodSchema>>({
+    const form = useForm<z.infer<typeof AnswerRequestSchema>>({
         defaultValues: {},
-        resolver: zodResolver(zodSchema),
+        resolver: zodResolver(AnswerRequestSchema),
     })
 
-    const onSubmit = (data: z.infer<typeof zodSchema>) => {
-        createAnswer(data.content)
+    const onSubmit = (data: z.infer<typeof AnswerRequestSchema>) => {
+        createAnswer(data as AnswerRequest)
+        form.reset()
     }
 
     return (

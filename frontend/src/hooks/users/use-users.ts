@@ -3,7 +3,7 @@ import { USERS_SERVICE } from "@/services/users.service";
 import { User } from "@clerk/nextjs/server";
 
 export const useUsers = (id: string) => {
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error, refetch } = useQuery({
         queryKey: ['user', id],
         queryFn: () => USERS_SERVICE.findOne(id),
     });
@@ -12,5 +12,6 @@ export const useUsers = (id: string) => {
         user: data as unknown as User,
         isUserLoading: isLoading,
         userError: error,
+        refetchUser: refetch,
     };
 };

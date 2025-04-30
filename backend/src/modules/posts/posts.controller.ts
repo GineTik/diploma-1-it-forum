@@ -3,10 +3,10 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
-import { ClerkAuthGuard } from 'src/modules/user/clerk-auth.guard';
-import { ClerkId } from 'src/modules/user/clerk-id.decorator';
+import { ClerkAuthGuard } from 'src/common/guards/clerk-auth.guard';
+import { ClerkId } from 'src/common/decorators/clerk-id.decorator';
 import { ClerkPayloadDto } from '../user/dto/clerk-payload.dto';
-import { Auth } from '../user/combined-auth.decorator';
+import { Auth } from '../../common/decorators/combined-auth.decorator';
 
 @Controller()
 export class PostsController {

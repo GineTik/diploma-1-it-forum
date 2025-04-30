@@ -3,8 +3,8 @@ import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { ClerkPayloadDto } from '../user/dto/clerk-payload.dto';
-import { ClerkId } from '../user/clerk-id.decorator';
-import { Auth } from 'src/modules/user/combined-auth.decorator';
+import { ClerkId } from '../../common/decorators/clerk-id.decorator';
+import { Auth } from 'src/common/decorators/combined-auth.decorator';
 
 @Controller()
 export class AnswersController {

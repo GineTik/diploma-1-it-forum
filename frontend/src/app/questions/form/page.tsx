@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ROUTES } from "@/contants/routes.constants";
 import { usePostsActions } from "@/hooks/posts/use-posts-actions";
 import { useTags } from "@/hooks/tags/use-tags";
-import { useTagsActions } from "@/hooks/tags/use-tags-actions";
+import { useRecommendTags } from "@/hooks/tags/use-recommend-tags";
 import { Tag } from "@/types/tags.type";
 import { Loader2, Send, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ import { z } from "zod";
 export default function QuestionsFormPage() {
     const router = useRouter();
     const {tags, isTagsLoading} = useTags();
-    const {recomendedTags, isRecommendTagsLoading, recommendTags, resetRecommendTags} = useTagsActions();
+    const {recomendedTags, isRecommendTagsLoading, recommendTags, resetRecommendTags} = useRecommendTags();
     const {createQuestionAsync, isCreatingQuestion} = usePostsActions();
 
     const questionSchema = z.object({
@@ -38,12 +38,7 @@ export default function QuestionsFormPage() {
     type QuestionFormData = z.infer<typeof questionSchema>;
 
     const form = useForm<QuestionFormData>({
-        defaultValues: {
-            title: '',
-            contentProblem: '',
-            contentTried: '',
-            tags: [] as Tag[],
-        },
+        defaultValues: {},
         resolver: zodResolver(questionSchema)
     });
 
@@ -63,14 +58,12 @@ export default function QuestionsFormPage() {
     const submitPost = useCallback(() => {
         createQuestionAsync({
             title: form.getValues('title'),
-            content: form.getValues('contentProblem') + form.getValues('contentTried'),
+            content: form.getValues('contentProblem') + "\n\n" + form.getValues('contentTried'),
             tags: form.getValues('tags').map(tag => tag.id),
-        }).then(question => {
-            router.push(ROUTES.QUESTION(question.id));
+        }).then(({id}) => {
+            router.push(ROUTES.QUESTION(id));
         });
     }, [form]);
-
-
 
     return (
         <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">

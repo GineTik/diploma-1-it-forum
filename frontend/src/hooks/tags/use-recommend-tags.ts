@@ -2,7 +2,7 @@ import { TAGS_SERVICE } from "@/services/tags.service";
 import { Tag } from "@/types/tags.type";
 import { useMutation } from "@tanstack/react-query";
 
-export const useTagsActions = () => {
+export const useRecommendTags = () => {
     const recomendTagsMutation = useMutation({
         mutationKey: ['recommendTags'],
         mutationFn: async ({title, content}: {title: string, content: string}) => await TAGS_SERVICE.recommend(title, content)

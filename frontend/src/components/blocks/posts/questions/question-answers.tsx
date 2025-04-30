@@ -1,15 +1,17 @@
 import { useAnswers } from "@/hooks/answers/use-answers";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Edit, Loader2, Trash } from "lucide-react";
 import PostFormBlock from "../post-form-block";
 import { Badge } from "@/components/ui/badge";
 import { sortByCorrectAnswer } from "@/lib/sorting";
 import Markdown from "react-markdown";
-import { Answer } from "@/types/answers.types";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { AnswerResponse } from "@/types/answers.types";
+import { useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { useUsers } from "@/hooks/users/use-users";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useDeleteAnswer } from "@/hooks/answers/use-answers-actions";
 
 type QuestionAuthorPanelProps = {
     postId: number;
@@ -17,7 +19,7 @@ type QuestionAuthorPanelProps = {
 }
 
 export default function QuestionAnswers({postId, authorId}: QuestionAuthorPanelProps) {
-    const { answers, isAnswersLoading, answersError } = useAnswers(postId);
+    const { answers, isAnswersLoading } = useAnswers(postId);
  
     return (
         <div className="space-y-2">
@@ -42,70 +44,83 @@ export default function QuestionAnswers({postId, authorId}: QuestionAuthorPanelP
 }
 
 type AnswerItemProps = {
-    answer: Answer;
+    answer: AnswerResponse;
     postAuthorId: string;
 }
 
 function AnswerItem({answer, postAuthorId}: AnswerItemProps) {
-    const { user, isUserLoading, userError } = useUsers(answer.authorId);
-
     return (
-        <PostFormBlock key={answer.id} className="space-y-4 relative">
-            <div className="space-y-1 text-xs absolute top-0 right-0 p-3">
-                <span className="opacity-50">Написано {parseDate(answer.createdAt)}</span>
-                {!equalDates(answer.createdAt, answer.updatedAt) && <>
-                    <span className="opacity-50">Оновлено {parseDate(answer.updatedAt)}</span>
-                </>}
-            </div>
+        <PostFormBlock key={answer.id} className="relative space-y-4">
             {answer.isCorrect && (
                 <Badge variant="success">
                     <Check className="size-4" />
                     Автор позначив як правильну
                 </Badge>
             )}
-            <div className="flex gap-2 items-center flex-wrap">
-                {user && <>
-                    <Avatar className="">
-                    <AvatarImage src={user?.imageUrl} className="size-7 rounded-full" />
-                    <AvatarFallback>
-                        {user?.username?.slice(0, 2)}
-                    </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                    <span className="text-sm font-medium">@{user?.username}</span>
-                    <span className="text-xs text-muted-foreground">
-                        {user?.firstName} {user?.lastName}
-                    </span>
-                </div></>}
-                {answer.authorId === postAuthorId && (
-                    <Badge variant="secondary">
-                        Автор питання
-                    </Badge>
-                )}
-            </div>
             <Markdown>{answer.content}</Markdown>
-            <AnswerAuthorPanel authorId={answer.authorId} />
+            <div className="text-xs absolute bottom-0 right-0 p-3 mb-0">
+                <span className="opacity-50 ml-auto">Написано {parseDate(answer.createdAt)}</span>
+                {!equalDates(answer.createdAt, answer.updatedAt) && <>
+                    <span className="opacity-50">Оновлено {parseDate(answer.updatedAt)}</span>
+                </>}
+            </div>
+            <div className="flex gap-2 items-center">
+                <AnswerProfile authorId={answer.authorId} postAuthorId={postAuthorId} />
+                <AnswerAuthorPanel authorId={answer.authorId} answerId={answer.id} />
+            </div>
         </PostFormBlock>
     )
 }
 
-function AnswerAuthorPanel({authorId}: {authorId: string}) {
-    const {userId} = useAuth()
+type AnswerAuthorPanelProps = {
+    authorId: string;
+    answerId: number;
+}
 
+function AnswerAuthorPanel({authorId, answerId}: AnswerAuthorPanelProps) {
+    const {userId} = useAuth()
+    const {deleteAnswer, isDeletingAnswer} = useDeleteAnswer(answerId)
     if (authorId !== userId) {
         return <></>
     }
 
     return (
-        <div className="flex flex-wrap gap-2 mt-5">
+        <div className="flex flex-wrap gap-2 justify-end">
             <Button variant="outline" size="sm">
-                Редагувати
+                <Edit /> Ред.
             </Button>
-            <Button variant="destructive" size="sm">
-                Видалити
+            <Button variant="destructive" size="icon" onClick={() => deleteAnswer()}>
+                {isDeletingAnswer ? <Loader2 className="size-4 animate-spin" /> : <Trash className="size-4" />}
             </Button>
         </div>
     )
+}
+
+function AnswerProfile({authorId, postAuthorId}: {authorId: string, postAuthorId: string}) {
+    const { user, isUserLoading } = useUsers(authorId);
+
+    if (isUserLoading)
+        return <Skeleton className="size-7 rounded-full animate-pulse" />
+
+    return (<div className="flex gap-2 items-center">
+        <Avatar className="">
+            <AvatarImage src={user?.imageUrl} className="size-7 rounded-full" />
+            <AvatarFallback>
+                {user?.username?.slice(0, 2)}
+            </AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col">
+            <span className="text-sm font-medium">@{user?.username}</span>
+            <span className="text-xs text-muted-foreground">
+                {user?.firstName} {user?.lastName}
+            </span>
+        </div>
+        {authorId === postAuthorId && (
+            <Badge variant="secondary">
+                Автор питання
+            </Badge>
+        )}
+    </div>)
 }
 
 function parseDate(date: string) {

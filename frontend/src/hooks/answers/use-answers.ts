@@ -1,9 +1,9 @@
 import { ANSWERS_SERVICE } from "@/services/answers.service";
-import { Answer } from "@/types/answers.types";
+import { AnswerResponse } from "@/types/answers.types";
 import { useQuery } from "@tanstack/react-query";
 
 export const useAnswers = (postId: number) => {
-    const { data, isLoading, error } = useQuery<Answer[]>({
+    const { data, isLoading, error, refetch } = useQuery<AnswerResponse[]>({
         queryKey: ['answers', postId],
         queryFn: async () => await ANSWERS_SERVICE.getAllByPostId(postId),
     });
@@ -12,5 +12,6 @@ export const useAnswers = (postId: number) => {
         answers: data,
         isAnswersLoading: isLoading,
         answersError: error,
+        refetchAnswers: refetch,
     };
 };

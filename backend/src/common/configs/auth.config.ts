@@ -1,3 +1,1 @@
-export const CLERK_DATA_KEY = 'clerkData';
-
-export const USER_KEY = 'user';
+export const CLERK_PAYLOAD_KEY = 'clerk-payload';

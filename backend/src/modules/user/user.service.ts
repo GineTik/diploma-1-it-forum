@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { User } from 'generated/prisma';
-import { CreateUserDto } from './dto/create-user.dto';
 import { ClerkPayloadDto } from './dto/clerk-payload.dto';
 import { clerkClient } from '@clerk/express';
 

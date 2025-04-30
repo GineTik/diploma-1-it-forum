@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/blocks/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/blocks/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { Providers } from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased dark`}
       >
         <Providers>
+          <Toaster />
           <AppSidebar variant="inset" />
           <SidebarInset>
             <SiteHeader />

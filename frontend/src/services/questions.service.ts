@@ -1,5 +1,7 @@
 import { api } from "@/lib/api";
-import { CreatePost } from "@/types/posts.types";
+import { getAuthHeaders } from "@/lib/get-jwt-token";
+import { AuthToken } from "@/types/auth.types";
+import { CreatePost, Post } from "@/types/posts.types";
 
 export class QuestionsServiceClass {
     public async getAll() {
@@ -10,16 +12,16 @@ export class QuestionsServiceClass {
         return await api.get(`/posts/${id}`);
     }
     
-    public async create(question: CreatePost) {
-        return await api.post('/posts/questions', question);
+    public async create(question: CreatePost, token: AuthToken) {
+        return await api.post<Post>('/posts/questions', question, getAuthHeaders(token));
     }
 
-    public async delete(id: number) {
-        return await api.delete(`/posts/${id}`);
+    public async delete(id: number, token: AuthToken) {
+        return await api.delete(`/posts/${id}`, getAuthHeaders(token));
     }
 
-    public async update(id: number, question: CreatePost) {
-        return await api.patch(`/posts/${id}`, question);
+    public async update(id: number, question: CreatePost, token: AuthToken) {
+        return await api.patch(`/posts/${id}`, question, getAuthHeaders(token));
     }
 }
 

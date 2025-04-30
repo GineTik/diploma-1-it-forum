@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUserDto } from './dto/get-user.dto';
 import { plainToInstance } from 'class-transformer';
-import { ClerkAuthGuard } from './clerk-auth.guard';
+import { ClerkAuthGuard } from '../../common/guards/clerk-auth.guard';
 
 @Controller()
 export class UsersController {

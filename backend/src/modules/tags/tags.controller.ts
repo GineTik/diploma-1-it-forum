@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { Auth } from '../user/combined-auth.decorator';
+import { Auth } from '../../common/decorators/combined-auth.decorator';
 
 @Controller()
 export class TagsController {
