@@ -35,7 +35,6 @@ export class OpenRouterService {
     });
     
     const data = await res.json();
-    console.log(data);
     return data.choices[0].message.content;
   }
 }

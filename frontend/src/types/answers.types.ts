@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export type AnswerRequest = {
     content: string;
-    questionId: string;
 }
 
 export type AnswerResponse = {
@@ -15,6 +14,6 @@ export type AnswerResponse = {
 }
 
 export const AnswerRequestSchema = z.object({
-    content: z.string(),
-    questionId: z.string(),
+    content: z.string()
+        .min(1, {message: "Відповідь не може бути порожньою"}),
 });

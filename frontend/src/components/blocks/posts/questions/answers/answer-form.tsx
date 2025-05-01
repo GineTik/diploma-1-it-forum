@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import PostFormBlock from "../post-form-block";
 import { SignedIn } from "@clerk/nextjs";
 import { useCreateAnswer } from "@/hooks/answers/use-answers-actions";
 import { useForm } from "react-hook-form";
@@ -8,23 +7,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
 import { AnswerRequest, AnswerRequestSchema } from "@/types/answers.types";
+import { useCallback } from "react";
+import PostFormBlock from "../../post-form-block";
 
-type QuestionAnswerFormProps = {
+type AnswerFormProps = {
     postId: number;
 }
 
-export default function QuestionAnswerForm({postId}: QuestionAnswerFormProps) {
+export default function AnswerForm({postId}: AnswerFormProps) {
     const {createAnswer, isCreatingAnswer} = useCreateAnswer(Number(postId))
 
-    const form = useForm<z.infer<typeof AnswerRequestSchema>>({
+    const {reset, register, handleSubmit, formState} = useForm<z.infer<typeof AnswerRequestSchema>>({
         defaultValues: {},
         resolver: zodResolver(AnswerRequestSchema),
     })
+    const {errors} = formState;
 
-    const onSubmit = (data: z.infer<typeof AnswerRequestSchema>) => {
+    const onSubmit = useCallback((data: z.infer<typeof AnswerRequestSchema>) => {
         createAnswer(data as AnswerRequest)
-        form.reset()
-    }
+        reset()
+    }, [createAnswer, reset])
 
     return (
         <SignedIn>
@@ -34,11 +36,12 @@ export default function QuestionAnswerForm({postId}: QuestionAnswerFormProps) {
                         <h2 className="font-bold">Надайте вашу відпоідь</h2>
                         <p className="opacity-50 text-sm">Використовуйте markdown для оформлення тексту</p>
                     </div>
-                    <Button variant="secondary" onClick={form.handleSubmit(onSubmit)} disabled={isCreatingAnswer}>
+                    <Button variant="secondary" onClick={handleSubmit(onSubmit)}>
                         {isCreatingAnswer ? <Loader2 className="size-4 animate-spin" /> : "Відправити"}
                     </Button>
                 </div>
-                <Textarea placeholder="Ваша відповідь" {...form.register("content")} />
+                <Textarea placeholder="Ваша відповідь" {...register("content")} />
+                {errors.content && <p className="text-red-500 text-sm">{errors.content.message}</p>}
             </PostFormBlock>
         </SignedIn>
     )
