@@ -43,17 +43,17 @@ export default function QuestionsFormPage() {
     });
 
     const parseTagsToOptions = useCallback((tags: Tag[]): MultiselectOption[] => {
-        return tags.map(tag => ({label: tag.name, value: tag.name}));
+        return tags?.map(tag => ({label: tag.name, value: tag.name})) ?? [];
     }, []);
     
     const parseOptionsToTags = useCallback((options: MultiselectOption[]): Tag[] => {
-        return options.map(option => tags.find(tag => tag.name === option.value)).filter(tag => tag !== undefined);
+        return options?.map(option => tags.find(tag => tag.name === option.value)).filter(tag => tag !== undefined) ?? [];
     }, [tags]);
 
     const applyRecommendedTags = useCallback(() => {
-        form.setValue('tags', parseOptionsToTags(parseTagsToOptions(recomendedTags)));
+        form.setValue('tags', recomendedTags);
         resetRecommendTags();
-    }, [recomendedTags, form, resetRecommendTags, parseOptionsToTags, parseTagsToOptions]);
+    }, [recomendedTags, form, resetRecommendTags]);
 
     const submitPost = useCallback(() => {
         createQuestionAsync({
