@@ -8,6 +8,7 @@ import { ROUTES } from "@/contants/routes.constants";
 
 export const usePostsActions = () => {
   const { getToken } = useAuth();
+  const router = useRouter();
 
   const summarizePostMutation = useMutation({
     mutationKey: ['summarizePost'],
@@ -16,7 +17,10 @@ export const usePostsActions = () => {
 
   const createQuestionMutation = useMutation({
     mutationKey: ['createQuestion'],
-    mutationFn: async (post: CreateOrUpdatePostRequest) => await QUESTIONS_SERVICE.create(post, await getToken())
+    mutationFn: async (post: CreateOrUpdatePostRequest) => await QUESTIONS_SERVICE.create(post, await getToken()),
+    onSuccess: (data) => {
+      router.push(ROUTES.QUESTION(data.data.id));
+    }
   });
 
   return {

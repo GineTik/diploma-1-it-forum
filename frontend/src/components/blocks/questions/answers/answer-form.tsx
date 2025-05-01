@@ -9,6 +9,7 @@ import { z } from "zod";
 import { AnswerRequest, AnswerRequestSchema } from "@/types/answers.types";
 import { useCallback } from "react";
 import PostFormBlock from "../../post-form-block";
+import { ErrorMessage } from "@/components/ui/error-message";
 
 type AnswerFormProps = {
     postId: number;
@@ -41,7 +42,7 @@ export default function AnswerForm({postId}: AnswerFormProps) {
                     </Button>
                 </div>
                 <Textarea placeholder="Ваша відповідь" {...register("content")} />
-                {errors.content && <p className="text-red-500 text-sm">{errors.content.message}</p>}
+                {errors.content && <ErrorMessage>{errors.content.message}</ErrorMessage>}
             </PostFormBlock>
         </SignedIn>
     )

@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { ErrorMessage } from "@/components/ui/error-message";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateAnswer } from "@/hooks/answers/use-answers-actions";
 import { AnswerRequestSchema } from "@/types/answers.types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useCallback, Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
@@ -18,6 +20,7 @@ export function AnswerEditableContent({answerId, content, setIsEditing}: AnswerE
         defaultValues: {
             content: content,
         },
+        resolver: zodResolver(AnswerRequestSchema),
     })
     const {errors} = formState;
     const {updateAnswer, isUpdatingAnswer} = useUpdateAnswer(answerId);
@@ -30,7 +33,7 @@ export function AnswerEditableContent({answerId, content, setIsEditing}: AnswerE
     return (
         <div className="space-y-2">
             <Textarea defaultValue={content} {...register("content")} />
-            {errors.content && <p className="text-red-500 text-sm">{errors.content.message}</p>}
+            {errors.content && <ErrorMessage>{errors.content.message}</ErrorMessage>}
             <Button variant="default" onClick={handleSubmit(onSubmit)} disabled={isUpdatingAnswer} className="sm:ml-auto sm:block max-sm:w-full">
                 {isUpdatingAnswer ? <Loader2 className="size-4 animate-spin" /> : "Зберегти"}
             </Button>
