@@ -11,10 +11,13 @@ import QuestionAuthorPanel from "@/components/blocks/questions/item/question-aut
 import AnswerList from "@/components/blocks/questions/answers/answer-list";
 import AnswerForm from "@/components/blocks/questions/answers/answer-form";
 import { PostResponse } from "@/types/posts.types";
+import { QuestionEditableContent } from "@/components/blocks/questions/form/question-editable-content";
+import { useState } from "react";
 
 export default function QuestionPage() {
     const {id} = useParams();
     const {post, isPostLoading} = useQuestion(Number(id));
+    const [isEditing, setIsEditing] = useState(false);
 
     if (isPostLoading) {
         return <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
@@ -26,8 +29,10 @@ export default function QuestionPage() {
 
     return (
         <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
-            <QuestionAuthorPanel postId={post.id} authorId={post.authorId} />
-            <Content post={post} />
+            <QuestionAuthorPanel postId={post.id} authorId={post.authorId} isEditing={isEditing} setIsEditing={setIsEditing} />
+            {isEditing
+                ? <QuestionEditableContent post={post} setIsEditing={setIsEditing} />
+                : <Content post={post} />}
             <AnswerForm postId={post.id} />
             <AnswerList postId={post.id} authorId={post.authorId} />
         </div>

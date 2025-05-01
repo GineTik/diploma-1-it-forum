@@ -1,3 +1,5 @@
+'use client';
+
 import { CreateOrUpdatePostRequest, PostResponse } from "@/types/posts.types";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from '@clerk/nextjs';
@@ -5,6 +7,7 @@ import { POSTS_SERVICE } from "@/services/posts.service";
 import { QUESTIONS_SERVICE } from "@/services/questions.service";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/contants/routes.constants";
+import { queryClient } from "@/app/providers";
 
 export const usePostsActions = () => {
   const { getToken } = useAuth();
@@ -40,7 +43,10 @@ export const useUpdatePost = (postId: number) => {
 
   const updatePostMutation = useMutation({
     mutationKey: ['updatePost'],
-    mutationFn: async (post: CreateOrUpdatePostRequest) => await POSTS_SERVICE.update(postId, post, await getToken())
+    mutationFn: async (post: CreateOrUpdatePostRequest) => await POSTS_SERVICE.update(postId, post, await getToken()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+    }
   });
 
   return {

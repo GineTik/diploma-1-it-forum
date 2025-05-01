@@ -1,3 +1,5 @@
+'use client';
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -53,6 +55,8 @@ export const QuestionItem = forwardRef<HTMLDivElement, QuestionItemProps>(
     );
   }
 );
+
+QuestionItem.displayName = "QuestionItem";
 
 function Title({ title, id }: { title: string, id: number }) {
   return (
