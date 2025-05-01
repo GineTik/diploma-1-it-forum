@@ -5,6 +5,8 @@ import { AnswerProfile } from "./answer-profile";
 import { AnswerAuthorPanel } from "./answer-author-panel";
 import { AnswerCorrectBarge } from "./answer-correct-barge";
 import { AnswerDates } from "./answer-dates";
+import { useState } from "react";
+import { AnswerEditableContent } from "./answer-editable-content";
 
 type AnswerItemProps = {
     answer: AnswerResponse;
@@ -12,15 +14,19 @@ type AnswerItemProps = {
 }
 
 export function AnswerItem({answer, postAuthorId}: AnswerItemProps) {
+    const [isEditing, setIsEditing] = useState(false);
+
     return (
         <PostFormBlock key={answer.id} className="relative space-y-4">
             
             <AnswerCorrectBarge isCorrect={answer.isCorrect} />
-            <Markdown>{answer.content}</Markdown>
+            {isEditing
+                ? <AnswerEditableContent answerId={answer.id} content={answer.content} setIsEditing={setIsEditing} />
+                : <Markdown>{answer.content}</Markdown>}
             
             <div className="flex gap-2 items-center flex-wrap">
                 <AnswerProfile authorId={answer.authorId} postAuthorId={postAuthorId} />
-                <AnswerAuthorPanel authorId={answer.authorId} answerId={answer.id} />
+                <AnswerAuthorPanel authorId={answer.authorId} answerId={answer.id} setIsEditing={setIsEditing} isEditing={isEditing} />
                 <AnswerDates createdAt={answer.createdAt} updatedAt={answer.updatedAt} className="ml-auto" />
             </div>
 

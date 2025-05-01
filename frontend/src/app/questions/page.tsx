@@ -2,7 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { QuestionItem, QuestionItemProps } from "@/components/blocks/posts/questions/question-item";
+import { QuestionItem, QuestionItemProps } from "@/components/blocks/questions/question-item";
 import { useQuestions } from "@/hooks/posts/use-questions";
 
 interface QuestionListProps {

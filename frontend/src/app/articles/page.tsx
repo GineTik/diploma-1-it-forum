@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useArticles } from "@/hooks/posts/use-articles";
-import { ArticleItem, ArticleItemProps } from "@/components/blocks/posts/articles/article-item";
+import { ArticleItem, ArticleItemProps } from "@/components/blocks/articles/article-item";
 
 interface ArticleListProps {
   articles: ArticleItemProps[];

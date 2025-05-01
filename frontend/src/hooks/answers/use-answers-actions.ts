@@ -33,3 +33,19 @@ export const useDeleteAnswer = (answerId: number) => {
         isDeletingAnswer,
     }
 }
+
+export const useUpdateAnswer = (answerId: number) => {
+    const {getToken} = useAuth();
+    const {mutate: updateAnswer, isPending: isUpdatingAnswer, error: updateAnswerError} = useMutation({
+        mutationFn: async (answer: AnswerRequest) => ANSWERS_SERVICE.update(answerId, answer, await getToken()),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['answers']});
+        },
+    })
+
+    return {
+        updateAnswer,
+        isUpdatingAnswer,
+        updateAnswerError,
+    }
+}

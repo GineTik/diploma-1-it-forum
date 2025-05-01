@@ -1,6 +1,6 @@
 'use client'
 
-import PostFormBlock from "@/components/blocks/posts/post-form-block";
+import PostFormBlock from "@/components/blocks/post-form-block";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

@@ -1,15 +1,15 @@
 'use client';
 
-import PostFormBlock from "@/components/blocks/posts/post-form-block";
+import PostFormBlock from "@/components/blocks/post-form-block";
 import { useQuestion } from "@/hooks/posts/use-questions";
 import { useParams } from "next/navigation";
 import Markdown from 'react-markdown';
 import styles from './page.module.scss';
 import { Loader2, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import QuestionAuthorPanel from "@/components/blocks/posts/questions/question-author-panel";
-import AnswerList from "@/components/blocks/posts/questions/answers/answer-list";
-import AnswerForm from "@/components/blocks/posts/questions/answers/answer-form";
+import QuestionAuthorPanel from "@/components/blocks/questions/question-author-panel";
+import AnswerList from "@/components/blocks/questions/answers/answer-list";
+import AnswerForm from "@/components/blocks/questions/answers/answer-form";
 import { Post } from "@/types/posts.types";
 
 export default function QuestionPage() {
