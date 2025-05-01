@@ -1,13 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Tag } from "@/types/tags.type";
+import { TagResponse } from "@/types/tags.type";
 import { MessageCircle, TagIcon } from "lucide-react";
 import { forwardRef } from "react";
 
 export type ArticleItemProps = {
   title: string;
-  tags: Tag[];
+  tags: TagResponse[];
   className?: string;
 }
   

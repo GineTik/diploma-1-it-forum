@@ -1,15 +1,15 @@
-import { Tag } from "./tags.type";
+import { TagResponse } from "./tags.type";
 
-export type CreatePost = {
+export type CreateOrUpdatePostRequest = {
     title: string;
     content: string;
     tags: number[];
 }
 
-export type Post = {
+export type PostResponse = {
     id: number;
     title: string;
     content: string;
-    tags: Tag[];
+    tags: TagResponse[];
     authorId: string;
 }

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useDeleteAnswer } from "@/hooks/answers/use-answers-actions";
 import { useAuth } from "@clerk/nextjs";
 import { Edit, Loader2, Trash } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type AnswerAuthorPanelProps = {
     authorId: string;

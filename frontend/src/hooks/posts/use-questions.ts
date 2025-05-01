@@ -1,5 +1,5 @@
 import { QUESTIONS_SERVICE } from '@/services/questions.service'
-import { Post } from '@/types/posts.types'
+import { PostResponse } from '@/types/posts.types'
 import { useQuery } from '@tanstack/react-query'
 
 export const useQuestions = () => {
@@ -8,7 +8,7 @@ export const useQuestions = () => {
     queryFn: async () => await QUESTIONS_SERVICE.getAll()
   })
   
-  return {questions: questions as Post[]}
+  return {questions: questions as PostResponse[]}
 }
 
 export const useQuestion = (id: number) => {
@@ -18,7 +18,7 @@ export const useQuestion = (id: number) => {
   })
   
   return {
-    post: post as Post,
+    post: post as PostResponse,
     isPostLoading: isLoading
   }
 }

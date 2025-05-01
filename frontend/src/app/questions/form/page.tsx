@@ -10,7 +10,7 @@ import { ROUTES } from "@/contants/routes.constants";
 import { usePostsActions } from "@/hooks/posts/use-posts-actions";
 import { useTags } from "@/hooks/tags/use-tags";
 import { useRecommendTags } from "@/hooks/tags/use-recommend-tags";
-import { Tag } from "@/types/tags.type";
+import { TagResponse } from "@/types/tags.type";
 import { Loader2, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
@@ -42,11 +42,11 @@ export default function QuestionsFormPage() {
         resolver: zodResolver(questionSchema)
     });
 
-    const parseTagsToOptions = useCallback((tags: Tag[]): MultiselectOption[] => {
+    const parseTagsToOptions = useCallback((tags: TagResponse[]): MultiselectOption[] => {
         return tags?.map(tag => ({label: tag.name, value: tag.name})) ?? [];
     }, []);
     
-    const parseOptionsToTags = useCallback((options: MultiselectOption[]): Tag[] => {
+    const parseOptionsToTags = useCallback((options: MultiselectOption[]): TagResponse[] => {
         return options?.map(option => tags.find(tag => tag.name === option.value)).filter(tag => tag !== undefined) ?? [];
     }, [tags]);
 

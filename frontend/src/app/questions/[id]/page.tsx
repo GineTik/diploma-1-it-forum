@@ -7,10 +7,10 @@ import Markdown from 'react-markdown';
 import styles from './page.module.scss';
 import { Loader2, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import QuestionAuthorPanel from "@/components/blocks/questions/question-author-panel";
+import QuestionAuthorPanel from "@/components/blocks/questions/item/question-author-panel";
 import AnswerList from "@/components/blocks/questions/answers/answer-list";
 import AnswerForm from "@/components/blocks/questions/answers/answer-form";
-import { Post } from "@/types/posts.types";
+import { PostResponse } from "@/types/posts.types";
 
 export default function QuestionPage() {
     const {id} = useParams();
@@ -34,7 +34,7 @@ export default function QuestionPage() {
     )
 }
 
-function Content({post}: {post: Post}) {
+function Content({post}: {post: PostResponse}) {
     return <PostFormBlock className="p-5">
         <div className="flex flex-wrap gap-2">
             {post.tags?.map((tag) => <TagItem key={tag.id} name={tag.name} />)}

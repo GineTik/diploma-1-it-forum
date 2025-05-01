@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { getAuthHeaders } from "@/lib/get-jwt-token";
-import { CreatePost } from "@/types/posts.types";
+import { CreateOrUpdatePostRequest } from "@/types/posts.types";
 
 export class ArticlesServiceClass {
     public async getAllArticles() {
@@ -11,7 +11,7 @@ export class ArticlesServiceClass {
         return await api.get(`/posts/${id}`);
     }
     
-    public async createArticle(article: CreatePost, token: string) {
+    public async createArticle(article: CreateOrUpdatePostRequest, token: string) {
         return await api.post('/posts/articles', article, getAuthHeaders(token));
     }
 }

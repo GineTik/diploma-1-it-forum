@@ -1,5 +1,5 @@
 import { TAGS_SERVICE } from "@/services/tags.service";
-import { Tag } from "@/types/tags.type";
+import { TagResponse } from "@/types/tags.type";
 import { useMutation } from "@tanstack/react-query";
 
 export const useRecommendTags = () => {
@@ -9,7 +9,7 @@ export const useRecommendTags = () => {
     });
 
     return {
-        recomendedTags: recomendTagsMutation.data?.data as Tag[],
+        recomendedTags: recomendTagsMutation.data?.data as TagResponse[],
         recommendTags: (title: string, content: string) => recomendTagsMutation.mutate({title, content}),
         isRecommendTagsLoading: recomendTagsMutation.isPending,
         recommendTagsError: recomendTagsMutation.error,

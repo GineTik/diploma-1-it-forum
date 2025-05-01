@@ -1,5 +1,5 @@
 import { TAGS_SERVICE } from '@/services/tags.service'
-import { Tag } from '@/types/tags.type'
+import { TagResponse } from '@/types/tags.type'
 import { useQuery } from '@tanstack/react-query'
 
 export const useTags = () => {
@@ -8,5 +8,5 @@ export const useTags = () => {
     queryFn: async () => await TAGS_SERVICE.getAll()
   })
   
-  return {tags: tags as Tag[], isTagsLoading}
+  return {tags: tags as TagResponse[], isTagsLoading}
 }
