@@ -3,8 +3,6 @@
 import PostFormBlock from "@/components/blocks/post-form-block";
 import { useQuestion } from "@/hooks/posts/use-questions";
 import { useParams } from "next/navigation";
-import Markdown from 'react-markdown';
-import styles from './page.module.scss';
 import { Loader2 } from "lucide-react";
 import QuestionAuthorPanel from "@/components/blocks/questions/item/question-author-panel";
 import AnswerList from "@/components/blocks/questions/answers/answer-list";
@@ -13,6 +11,7 @@ import { PostResponse } from "@/types/posts.types";
 import { QuestionEditableContent } from "@/components/blocks/questions/form/question-editable-content";
 import { useState } from "react";
 import { TagItem } from "@/components/blocks/tag-item";
+import { StyledMarkdown } from "@/components/ui/styled-markdown/styled-markdown";
 
 export default function QuestionPage() {
     const {id} = useParams();
@@ -45,10 +44,8 @@ function Content({post}: {post: PostResponse}) {
             {post.tags?.map((tag) => <TagItem key={tag.id} name={tag.name} />)}
         </div>
         <h1 className="text-2xl font-bold">{post.title}</h1>
-        <div className={styles.markdown}>
-            <Markdown>
-                {post.content}
-            </Markdown>
-        </div>    
+        <StyledMarkdown>
+            {post.content}
+        </StyledMarkdown>
     </PostFormBlock>
 }

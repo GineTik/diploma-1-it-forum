@@ -1,4 +1,4 @@
-.markdown {
+.container {
     pre {
         display: block;
         background-color: var(--code-background);
@@ -19,11 +19,20 @@
     }
 
     p {
-        margin: 1rem 0;
+        margin: 0;
+        margin-bottom: .8rem;
     }
 
     ul, ol {
         list-style-type: disc;
         margin-left: 1.5rem;
+    }
+
+    a {
+        color: var(--link-color);
+        
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }

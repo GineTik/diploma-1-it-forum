@@ -7,6 +7,7 @@ import { AnswerCorrectBarge } from "./answer-correct-barge";
 import { AnswerDates } from "./answer-dates";
 import { useState } from "react";
 import { AnswerEditableContent } from "./answer-editable-content";
+import { StyledMarkdown } from "@/components/ui/styled-markdown/styled-markdown";
 
 type AnswerItemProps = {
     answer: AnswerResponse;
@@ -22,7 +23,7 @@ export function AnswerItem({answer, postAuthorId}: AnswerItemProps) {
             <AnswerCorrectBarge isCorrect={answer.isCorrect} />
             {isEditing
                 ? <AnswerEditableContent answerId={answer.id} content={answer.content} setIsEditing={setIsEditing} />
-                : <Markdown>{answer.content}</Markdown>}
+                : <StyledMarkdown>{answer.content}</StyledMarkdown>}
             
             <div className="flex gap-2 items-center flex-wrap">
                 <AnswerProfile authorId={answer.authorId} postAuthorId={postAuthorId} />
