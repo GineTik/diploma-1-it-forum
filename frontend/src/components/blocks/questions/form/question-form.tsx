@@ -34,7 +34,13 @@ export default function QuestionsForm() {
                 description="Використовуйте markdown для оформлення тексту"
                 error={errors.contentTried?.message}
                 {...register('contentTried')} />
-            <QuestionTagsBlock errors={errors} getValues={getValues} setValue={setValue} />
+            <QuestionTagsBlock
+                errors={errors}
+                getTags={() => getValues('tags')}
+                setValue={(name, value) => setValue(name as keyof QuestionFormData, value)}
+                getTitle={() => getValues('title')}
+                getContent={() => getValues('contentProblem') + getValues('contentTried')}
+            />
             
             <div className="flex justify-end">
                 <Button variant="default" className="flex items-center" onClick={handleSubmit(createQuestion)}>

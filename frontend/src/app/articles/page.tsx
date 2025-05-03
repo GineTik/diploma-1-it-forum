@@ -1,24 +1,8 @@
 'use client'
 
 import React from "react";
-import { cn } from "@/lib/utils";
 import { useArticles } from "@/hooks/posts/use-articles";
-import { ArticleItem, ArticleItemProps } from "@/components/blocks/articles/article-item";
-
-interface ArticleListProps {
-  articles: ArticleItemProps[];
-  className?: string;
-}
-
-const ArticleList: React.FC<ArticleListProps> = ({ articles, className }) => {
-  return (
-    <div className={cn("space-y-4", className)}>
-      {articles.map((article, index) => (
-        <ArticleItem key={index} {...article} />
-      ))}
-    </div>
-  );
-};
+import { ArticleList } from "@/components/blocks/articles/article-list";
 
 export default function ArticlesPage() {
   const {articles} = useArticles();

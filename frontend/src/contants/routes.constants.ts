@@ -7,6 +7,7 @@ class Routes {
     ARTICLES_FORM = "/articles/form";
     PERSONAL_QUESTIONS = "/questions/personal";
     QUESTION = (id: number) => `/questions/${id}`;
+    ARTICLE = (id: number) => `/articles/${id}`;
 }
 
 export const ROUTES = new Routes();

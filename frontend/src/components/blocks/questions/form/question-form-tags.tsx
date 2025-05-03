@@ -6,17 +6,19 @@ import { QuestionFormData } from "@/types/posts.types";
 import { TagResponse } from "@/types/tags.type";
 import { Loader2, Sparkles } from "lucide-react";
 import { useCallback } from "react";
-import { FieldErrors, UseFormGetValues, UseFormSetValue } from "react-hook-form";
+import { FieldErrors } from "react-hook-form";
 import { BaseBlock } from "../../form-block";
 import { Badge } from "@/components/ui/badge";
 
 type QuestionTagsBlockProps = {
     errors: FieldErrors<QuestionFormData>;
-    getValues: UseFormGetValues<QuestionFormData>;
-    setValue: UseFormSetValue<QuestionFormData>;
+    getTags: () => TagResponse[];
+    setValue: (name: keyof QuestionFormData, value: TagResponse[]) => void;
+    getTitle: () => string;
+    getContent: () => string;
 }
 
-export function QuestionTagsBlock({errors, getValues, setValue}: QuestionTagsBlockProps) {
+export function QuestionTagsBlock({errors, getTags, setValue, getTitle, getContent}: QuestionTagsBlockProps) {
     const {tags, isTagsLoading} = useTags();
     const {recomendedTags, isRecommendTagsLoading, recommendTags, resetRecommendTags} = useRecommendTags();
 
@@ -39,10 +41,10 @@ export function QuestionTagsBlock({errors, getValues, setValue}: QuestionTagsBlo
                 defaultOptions={parseTagsToOptions(tags)}
                 emptyIndicator={<p className="text-center text-sm">Тегів не знайдено</p>}
                 hidePlaceholderWhenSelected
-                value={parseTagsToOptions(getValues('tags'))}
+                value={parseTagsToOptions(getTags())}
                 onChange={(tags) => setValue('tags', parseOptionsToTags(tags))}
             />}
-            <Button variant="outline" size='icon' onClick={() => recommendTags(getValues('title'), getValues('contentProblem') + getValues('contentTried'))}>
+            <Button variant="outline" size='icon' onClick={() => recommendTags(getTitle(), getContent())}>
                 {isRecommendTagsLoading
                     ? <Loader2 className="animate-spin" size={12} />
                     : <Sparkles size={12} />}

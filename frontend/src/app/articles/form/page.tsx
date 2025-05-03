@@ -1,42 +1,52 @@
 'use client'
 
-import PostFormBlock from "@/components/blocks/post-form-block";
+import { InputBlock, TextareaBlock } from "@/components/blocks/form-block";
+import { QuestionTagsBlock } from "@/components/blocks/questions/form/question-form-tags";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import MultipleSelector from "@/components/ui/multiselect";
-import { Textarea } from "@/components/ui/textarea";
-import { useTags } from "@/hooks/tags/use-tags";
-import { Loader2, Sparkles } from "lucide-react";
+import { useCreateArticle } from "@/hooks/posts";
+import { CreateOrUpdateArticleFormData, createOrUpdateArticleSchema } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 export default function ArticlesFormPage() {
-    const {tags, isTagsLoading} = useTags();
+    const {createArticle, isArticlePending} = useCreateArticle();
 
+    const {register, handleSubmit, formState: {errors}, getValues, setValue} = useForm<CreateOrUpdateArticleFormData>({
+        defaultValues: {},
+        resolver: zodResolver(createOrUpdateArticleSchema)
+    });
+    
     return (
         <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
-            <PostFormBlock>
-                <h2 className="font-bold">Коротко напишіть суть питання</h2>
-                <Input placeholder="Що таке React?" />
-            </PostFormBlock>
-            <PostFormBlock>
-                <h2 className="font-bold">Пишіть</h2>
-                <p className="opacity-50 text-sm -mt-2">Використовуйте markdown для оформлення тексту</p>
-                <Textarea className="h-[200px]" />
-            </PostFormBlock>
-            <PostFormBlock>
-                <h2 className="font-bold">Додайте теги</h2>
-                <div className="flex items-center gap-2">
-                    {isTagsLoading ? <Loader2 className="animate-spin" size={12} /> : <MultipleSelector
-                        defaultOptions={tags.map(tag => ({label: tag.name, value: tag.name}))} 
-                        emptyIndicator={<p className="text-center text-sm">Тегів не знайдено</p>}
-                        hidePlaceholderWhenSelected
-                    />}
-                    <Button variant="outline" size='icon'>
-                        <Sparkles size={12} />
-                    </Button>
-                </div>
-            </PostFormBlock>
+            <InputBlock
+                title="Заголовок статті"
+                placeholder="Що таке React?"
+                error={errors.title?.message}
+                {...register('title')}
+            />
+            <TextareaBlock
+                title="Пишіть"
+                description="Використовуйте markdown для оформлення тексту"
+                error={errors.content?.message}
+                className="h-[50vh]"
+                {...register('content')}
+            />
+            <QuestionTagsBlock
+                errors={errors}
+                setValue={(name, value) => setValue(name as keyof CreateOrUpdateArticleFormData, value)}
+                getTags={() => getValues('tags')}
+                getTitle={() => getValues('title')}
+                getContent={() => getValues('content')}
+            />
             <div className="flex justify-end">
-                <Button variant="default">Опублікувати</Button>
+                <Button 
+                    variant="default" 
+                    onClick={handleSubmit((data) => createArticle(data))} 
+                    disabled={isArticlePending}
+                >
+                    {isArticlePending ? <Loader2 className="animate-spin" size={12} /> : 'Опублікувати'}
+                </Button>
             </div>
         </div>
     )

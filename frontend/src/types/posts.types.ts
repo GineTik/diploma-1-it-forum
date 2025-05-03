@@ -42,3 +42,13 @@ export type CreateOrUpdateFieldErrors = FieldErrors<QuestionFormData | UpdateQue
 export type FilterPostParameters = {
     userId?: string | null;
 }
+
+export const createOrUpdateArticleSchema = z.object({
+    title: z.string().min(1, 'Назва є обов\'язковим полем').max(200, 'Назва є занадто довгою'),
+    content: z.string().min(1, 'Опис є обов\'язковим полем'),
+    tags: z.array(tagSchema)
+        .min(1, 'Необхідно додати хоча б один тег, але не більше 5-ти')
+        .max(5, 'Необхідно додати не більше 5-ти тегів')
+});
+
+export type CreateOrUpdateArticleFormData = z.infer<typeof createOrUpdateArticleSchema>;

@@ -3,7 +3,7 @@ import { QUESTIONS_SERVICE } from "@/services/questions.service";
 import { QuestionFormData } from "@/types/posts.types";
 import { useAuth } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export const useCreateQuestionActions = () => {
     const { getToken } = useAuth();
