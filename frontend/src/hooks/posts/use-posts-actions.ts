@@ -22,7 +22,7 @@ export const usePostsActions = () => {
     mutationKey: ['createQuestion'],
     mutationFn: async (post: CreateOrUpdatePostRequest) => await QUESTIONS_SERVICE.create(post, await getToken()),
     onSuccess: (data) => {
-      router.push(ROUTES.QUESTION(data.data.id));
+      router.push(ROUTES.QUESTION(data.id));
     }
   });
 

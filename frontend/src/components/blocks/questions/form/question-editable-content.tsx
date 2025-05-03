@@ -21,7 +21,7 @@ export function QuestionEditableContent({post, setIsEditing}: QuestionEditableCo
             tags: data.tags.map(tag => tag.id)
         })
         setIsEditing(false);
-    }, [updatePost]);
+    }, [updatePost, setIsEditing]);
 
     const {register, handleSubmit, formState: {errors}} = useForm<UpdateQuestionFormData>({
         defaultValues: post ?? {},

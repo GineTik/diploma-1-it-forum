@@ -38,3 +38,7 @@ export type UpdateQuestionFormData = z.infer<typeof updateQuestionSchema>;
 
 export type CreateOrUpdateFormRegister = UseFormRegister<QuestionFormData | UpdateQuestionFormData>
 export type CreateOrUpdateFieldErrors = FieldErrors<QuestionFormData | UpdateQuestionFormData>
+
+export type FilterPostParameters = {
+    userId?: string | null;
+}

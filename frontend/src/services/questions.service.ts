@@ -1,11 +1,15 @@
 import { api } from "@/lib/api";
 import { getAuthHeaders } from "@/lib/get-jwt-token";
 import { AuthToken } from "@/types/auth.types";
-import { CreateOrUpdatePostRequest, PostResponse } from "@/types/posts.types";
+import { CreateOrUpdatePostRequest, FilterPostParameters, PostResponse } from "@/types/posts.types";
 
 export class QuestionsServiceClass {
     public async getAll() {
         return await api.get('/posts/questions');
+    }
+
+    public async getFiltered(filter: FilterPostParameters) {
+        return await api.get('/posts/questions', {params: filter});
     }
 
     public async getOneById(id: number) {

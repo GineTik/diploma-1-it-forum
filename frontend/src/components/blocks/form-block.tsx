@@ -23,6 +23,8 @@ export const InputBlock = forwardRef<HTMLInputElement, InputBlockProps>(({title,
     </BaseBlock>
 })
 
+InputBlock.displayName = "InputBlock";
+
 type TextareaBlockProps = React.ComponentProps<"textarea"> & {
     title: string;
     description?: string;
@@ -35,3 +37,5 @@ export const TextareaBlock = forwardRef<HTMLTextAreaElement, TextareaBlockProps>
         <Textarea {...props} ref={ref} />
     </BaseBlock>
 })
+
+TextareaBlock.displayName = "TextareaBlock";

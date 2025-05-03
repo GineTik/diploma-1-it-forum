@@ -1,24 +1,8 @@
 'use client'
 
 import React from "react";
-import { cn } from "@/lib/utils";
-import { QuestionItem, QuestionItemProps } from "@/components/blocks/questions/question-item";
 import { useQuestions } from "@/hooks/posts/use-questions";
-
-interface QuestionListProps {
-  questions: QuestionItemProps[];
-  className?: string;
-}
-
-const QuestionList: React.FC<QuestionListProps> = ({ questions, className }) => {
-  return (
-    <div className={cn("space-y-4", className)}>
-      {questions.map((question, index) => (
-        <QuestionItem key={index} {...question} />
-      ))}
-    </div>
-  );
-};
+import { QuestionList } from "@/components/blocks/questions/question-list";
 
 export default function QuestionsPage() {
   const {questions} = useQuestions();
