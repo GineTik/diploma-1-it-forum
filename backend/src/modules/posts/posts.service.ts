@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
+import { CreatePostDto, CreatePostWithAuthorIdDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from 'generated/prisma';
 import { OpenRouterService } from 'src/common/ai/openrouter.service';
 import { PostsRepository } from './posts.repository';
 import { GetQuestionDto } from './dto/get-question.dto';
 import { plainToInstance } from 'class-transformer';
+import { FilterPostParameters } from './dto/filter-post-parametrs.dto';
 
 @Injectable()
 export class PostsService {
@@ -18,7 +19,6 @@ export class PostsService {
   }
 
   async createQuestion(createPostDto: CreatePostDto, id: string): Promise<Post> {
-    console.log(createPostDto, id);
     return this.postsRepository.create({
       ...createPostDto,
       authorId: id,
@@ -34,12 +34,15 @@ export class PostsService {
     });
   }
 
-  async findAll(isArticle?: boolean): Promise<Post[]> {
-    return this.postsRepository.findAll(isArticle);
+  async findAll(filter: FilterPostParameters): Promise<Post[]> {
+    return this.postsRepository.findAll(filter);
   }
 
-  async findAllQuestions(): Promise<GetQuestionDto[]> {
-    const questions = await this.postsRepository.findAllWithIncludedRelations(false);
+  async findAllQuestions(filter: Omit<FilterPostParameters, 'isArticle'>): Promise<GetQuestionDto[]> {
+    const questions = await this.postsRepository.findAllWithIncludedRelations({
+      ...filter,
+      isArticle: false
+    });
     return plainToInstance(GetQuestionDto, questions.map(question => ({
       ...question,
       answersCount: question.answers.length,

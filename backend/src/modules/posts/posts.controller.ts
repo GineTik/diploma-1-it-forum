@@ -1,12 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Query, ParseBoolPipe } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
-import { ClerkAuthGuard } from 'src/common/guards/clerk-auth.guard';
 import { ClerkId } from 'src/common/decorators/clerk-id.decorator';
 import { ClerkPayloadDto } from '../user/dto/clerk-payload.dto';
 import { Auth } from '../../common/decorators/combined-auth.decorator';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller()
 export class PostsController {
@@ -15,7 +14,6 @@ export class PostsController {
   @Post('posts/questions')
   @Auth()
   createQuestion(@Body() createPostDto: CreatePostDto, @ClerkId() user: ClerkPayloadDto) {
-    console.log(createPostDto, user);
     return this.postsService.createQuestion(createPostDto, user.clerkId);
   }
 
@@ -26,13 +24,19 @@ export class PostsController {
   }
 
   @Get('posts/articles')
-  findAllArticles() {
-    return this.postsService.findAll(true);
+  @ApiQuery({ name: 'userId', required: false })
+  findAllArticles(
+    @Query('userId') userId?: string
+  ) {
+    return this.postsService.findAll({ isArticle: true, userId });
   }
 
   @Get('posts/questions')
-  findAllQuestions() {
-    return this.postsService.findAllQuestions();
+  @ApiQuery({ name: 'userId', required: false })
+  findAllQuestions(
+    @Query('userId') userId?: string
+  ) {
+    return this.postsService.findAllQuestions({ userId });
   }
 
   @Get('posts/:id')
