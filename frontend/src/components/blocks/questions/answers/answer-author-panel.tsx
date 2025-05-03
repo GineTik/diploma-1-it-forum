@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useDeleteAnswer } from "@/hooks/answers/use-answers-actions";
+import { useDeleteAnswer } from "@/hooks/answers";
 import { useAuth } from "@clerk/nextjs";
 import { Edit, Loader2, Trash } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";

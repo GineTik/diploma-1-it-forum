@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateAnswer } from "@/hooks/answers/use-answers-actions";
+import { useUpdateAnswer } from "@/hooks/answers";
 import { AnswerRequestSchema } from "@/types/answers.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";

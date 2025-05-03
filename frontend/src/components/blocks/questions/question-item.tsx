@@ -4,13 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ROUTES } from "@/contants/routes.constants";
-import { usePostsActions } from "@/hooks/posts/use-posts-actions";
+import { useSummarizePostActions } from "@/hooks/posts/use-posts-actions";
 import { cn } from "@/lib/utils";
 import { PostResponse } from "@/types/posts.types";
 import { TagResponse } from "@/types/tags.type";
-import { Check, MessageCircle, Tag, Sparkles, Loader2 } from "lucide-react";
+import { Check, MessageCircle, Sparkles, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { forwardRef } from "react";
+import { TagItem } from "../tag-item";
 
 export type QuestionItemProps = PostResponse & {
   answersCount?: number;
@@ -20,7 +21,7 @@ export type QuestionItemProps = PostResponse & {
   
 export const QuestionItem = forwardRef<HTMLDivElement, QuestionItemProps>(
   ({ id, title, haveCorrectAnswer, answersCount = 0, tags, className }, ref) => {
-    const { summarizedPostContent, summarizePost, isSummarizing } = usePostsActions();
+    const { summarizedPostContent, summarizePost, isSummarizing } = useSummarizePostActions();
 
     return (
       <Card
@@ -81,15 +82,7 @@ function Tags({ tags }: { tags: TagResponse[] }) {
   return (
     <div className="flex flex-wrap gap-1 ml-auto">
       {tags?.map((tag, index) => (
-        <Badge 
-        key={index} 
-        variant="secondary"
-        size="small"
-        className="flex items-center"
-        icon={<Tag size={10} />}
-        >
-          {tag.name}
-        </Badge>
+        <TagItem key={index} name={tag.name} />
       ))}
     </div>
   )

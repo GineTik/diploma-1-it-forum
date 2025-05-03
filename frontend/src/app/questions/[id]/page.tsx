@@ -5,14 +5,14 @@ import { useQuestion } from "@/hooks/posts/use-questions";
 import { useParams } from "next/navigation";
 import Markdown from 'react-markdown';
 import styles from './page.module.scss';
-import { Loader2, Tag } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Loader2 } from "lucide-react";
 import QuestionAuthorPanel from "@/components/blocks/questions/item/question-author-panel";
 import AnswerList from "@/components/blocks/questions/answers/answer-list";
 import AnswerForm from "@/components/blocks/questions/answers/answer-form";
 import { PostResponse } from "@/types/posts.types";
 import { QuestionEditableContent } from "@/components/blocks/questions/form/question-editable-content";
 import { useState } from "react";
+import { TagItem } from "@/components/blocks/tag-item";
 
 export default function QuestionPage() {
     const {id} = useParams();
@@ -51,11 +51,4 @@ function Content({post}: {post: PostResponse}) {
             </Markdown>
         </div>    
     </PostFormBlock>
-}
-
-function TagItem({ name }: { name: string }) {
-    return <Badge variant="secondary">
-        <Tag className="size-4" />
-        {name}
-    </Badge>
 }

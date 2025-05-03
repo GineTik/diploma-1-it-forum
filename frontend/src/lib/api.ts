@@ -13,7 +13,7 @@ export const api = axios.create({
 
 api.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response;
   },
   (error) => {
     const message = error.response?.data?.message || 'Something went wrong';

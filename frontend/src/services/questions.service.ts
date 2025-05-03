@@ -1,7 +1,7 @@
 import { api } from "@/lib/api";
 import { getAuthHeaders } from "@/lib/get-jwt-token";
 import { AuthToken } from "@/types/auth.types";
-import { CreateOrUpdatePostRequest, FilterPostParameters, PostResponse } from "@/types/posts.types";
+import { CreateOrUpdatePostRequest, FilterPostParameters } from "@/types/posts.types";
 
 export class QuestionsServiceClass {
     public async getAll() {
@@ -17,7 +17,7 @@ export class QuestionsServiceClass {
     }
     
     public async create(question: CreateOrUpdatePostRequest, token: AuthToken) {
-        return await api.post<PostResponse>('/posts/questions', question, getAuthHeaders(token));
+        return await api.post('/posts/questions', question, getAuthHeaders(token))
     }
 
     public async delete(id: number, token: AuthToken) {

@@ -29,7 +29,7 @@ export function QuestionTagsBlock({errors, getValues, setValue}: QuestionTagsBlo
     }, [tags]);
 
     const applyRecommendedTags = useCallback(() => {
-        setValue('tags', recomendedTags);
+        setValue('tags', recomendedTags ?? []);
         resetRecommendTags();
     }, [recomendedTags, setValue, resetRecommendTags]);
 

@@ -4,8 +4,8 @@ import { AuthToken } from "@/types/auth.types";
 import { AnswerRequest, AnswerResponse } from "@/types/answers.types";
 
 export class AnswersServiceClass {
-    public async getAllByPostId(postId: number): Promise<AnswerResponse[]> {
-        return await api.get(`posts/${postId}/answers`);
+    public async getAllByPostId(postId: number) {
+        return await api.get<AnswerResponse[]>(`posts/${postId}/answers`);
     }
 
     public async create(postId: number, answer: AnswerRequest, token: AuthToken): Promise<AnswerResponse> {

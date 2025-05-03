@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { SignedIn } from "@clerk/nextjs";
-import { useCreateAnswer } from "@/hooks/answers/use-answers-actions";
+import { useCreateAnswer } from "@/hooks/answers";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -18,11 +18,10 @@ type AnswerFormProps = {
 export default function AnswerForm({postId}: AnswerFormProps) {
     const {createAnswer, isCreatingAnswer} = useCreateAnswer(Number(postId))
 
-    const {reset, register, handleSubmit, formState} = useForm<z.infer<typeof AnswerRequestSchema>>({
+    const {reset, register, handleSubmit, formState: {errors}} = useForm<z.infer<typeof AnswerRequestSchema>>({
         defaultValues: {},
         resolver: zodResolver(AnswerRequestSchema),
     })
-    const {errors} = formState;
 
     const onSubmit = useCallback((data: z.infer<typeof AnswerRequestSchema>) => {
         createAnswer(data as AnswerRequest)

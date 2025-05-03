@@ -1,4 +1,4 @@
-import { useAnswers } from "@/hooks/answers/use-answers";
+import { useAnswers } from "@/hooks/answers";
 import { Loader2 } from "lucide-react";
 import { sortByCorrectAnswer } from "@/lib/sorting";
 import { AnswerItem } from "./answer-item";

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { USERS_SERVICE } from "@/services/users.service";
-import { User } from "@clerk/nextjs/server";
 
 export const useUsers = (id: string) => {
     const { data, isLoading, error, refetch } = useQuery({
@@ -9,7 +8,7 @@ export const useUsers = (id: string) => {
     });
 
     return {
-        user: data as unknown as User,
+        user: data?.data,
         isUserLoading: isLoading,
         userError: error,
         refetchUser: refetch,

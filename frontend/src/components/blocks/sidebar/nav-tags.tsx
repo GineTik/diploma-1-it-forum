@@ -24,7 +24,7 @@ export function NavTags({
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Теги</SidebarGroupLabel>
       <SidebarMenu className="flex flex-wrap flex-row py-2">
-        {items.map((item) => (
+        {items?.map((item) => (
           <SidebarMenuItem key={item.id} className="">
             <SidebarMenuButton asChild>
               <span className="text-sm max-h-8 inline cursor-pointer px-2">
