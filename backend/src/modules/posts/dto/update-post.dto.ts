@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNumber, IsString } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class UpdatePostDto {
   @ApiProperty({
@@ -6,6 +8,8 @@ export class UpdatePostDto {
     example: 'Updated: Introduction to NestJS',
     required: false
   })
+  @IsOptional()
+  @IsString()
   title?: string;
 
   @ApiProperty({ 
@@ -13,6 +17,8 @@ export class UpdatePostDto {
     example: 'Updated content about NestJS...',
     required: false
   })
+  @IsOptional()
+  @IsString()
   content?: string;
 
   @ApiProperty({ 
@@ -22,5 +28,13 @@ export class UpdatePostDto {
   })
   isArticle?: boolean;
 
+  @ApiProperty({
+    description: 'Tags of the post',
+    example: [1, 2, 3],
+    required: false
+  })
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
   tags?: number[];
-} 
+}

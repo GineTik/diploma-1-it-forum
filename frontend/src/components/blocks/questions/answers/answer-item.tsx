@@ -1,13 +1,12 @@
 import { AnswerResponse } from "@/types/answers.types";
-import Markdown from "react-markdown";
 import PostFormBlock from "../../post-form-block";
 import { AnswerProfile } from "./answer-profile";
 import { AnswerAuthorPanel } from "./answer-author-panel";
 import { AnswerCorrectBarge } from "./answer-correct-barge";
-import { AnswerDates } from "./answer-dates";
 import { useState } from "react";
 import { AnswerEditableContent } from "./answer-editable-content";
 import { StyledMarkdown } from "@/components/ui/styled-markdown/styled-markdown";
+import { PublishDates } from "@/components/ui/publish-dates";
 
 type AnswerItemProps = {
     answer: AnswerResponse;
@@ -28,7 +27,7 @@ export function AnswerItem({answer, postAuthorId}: AnswerItemProps) {
             <div className="flex gap-2 items-center flex-wrap">
                 <AnswerProfile authorId={answer.authorId} postAuthorId={postAuthorId} />
                 <AnswerAuthorPanel authorId={answer.authorId} answerId={answer.id} setIsEditing={setIsEditing} isEditing={isEditing} />
-                <AnswerDates createdAt={answer.createdAt} updatedAt={answer.updatedAt} className="ml-auto" />
+                <PublishDates createdAt={answer.createdAt} updatedAt={answer.updatedAt} className="ml-auto" />
             </div>
 
         </PostFormBlock>

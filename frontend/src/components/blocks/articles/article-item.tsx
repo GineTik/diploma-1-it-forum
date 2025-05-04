@@ -1,18 +1,21 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { ROUTES } from "@/contants/routes.constants";
 import { cn } from "@/lib/utils";
 import { TagResponse } from "@/types/tags.type";
 import { MessageCircle, TagIcon } from "lucide-react";
+import Link from "next/link";
 import { forwardRef } from "react";
 
 export type ArticleItemProps = {
   title: string;
   tags: TagResponse[];
   className?: string;
+  id: number;
 }
   
 export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
-({ title, tags, className }, ref) => {
+({ title, tags, className, id }, ref) => {
     return (
     <Card
         ref={ref}
@@ -20,7 +23,7 @@ export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
     >
         <CardContent className="px-4 py-3">
         <div className="flex flex-col space-y-1">
-            <h3 className="text-lg font-medium text-foreground">{title}</h3>
+            <Title title={title} id={id} />
             
             <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center">
@@ -50,3 +53,11 @@ export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
 });
 
 ArticleItem.displayName = "ArticleItem";
+
+function Title({ title, id }: { title: string, id: number }) {
+    return (
+      <Link href={ROUTES.ARTICLE(id)}>
+        <h3 className="text-lg font-medium text-foreground hover:underline">{title}</h3>
+      </Link>
+    )
+  }

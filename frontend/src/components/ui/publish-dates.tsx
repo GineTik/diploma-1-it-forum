@@ -2,12 +2,12 @@ import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 import { parseDate } from "@/lib/dates";
 
-type AnswerDatesProps = HTMLAttributes<HTMLDivElement> & {
+type PublishDatesProps = HTMLAttributes<HTMLDivElement> & {
     createdAt: string;
     updatedAt: string;
 }
 
-export function AnswerDates({createdAt, updatedAt, className, ...props}: AnswerDatesProps) {
+export function PublishDates({createdAt, updatedAt, className, ...props}: PublishDatesProps) {
     return (
         <div className={cn("text-xs m-0 flex flex-col gap-1 self-end", className)} {...props}>
             <span className="opacity-50">Написано {parseDate(createdAt)}</span>

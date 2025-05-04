@@ -52,3 +52,13 @@ export const createOrUpdateArticleSchema = z.object({
 });
 
 export type CreateOrUpdateArticleFormData = z.infer<typeof createOrUpdateArticleSchema>;
+
+export type ArticleResponse = {
+    id: number;
+    title: string;
+    content: string;
+    tags: TagResponse[];
+    authorId: string;
+    createdAt: string;
+    updatedAt: string;
+}

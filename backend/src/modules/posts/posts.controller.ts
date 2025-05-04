@@ -28,7 +28,7 @@ export class PostsController {
   findAllArticles(
     @Query('userId') userId?: string
   ) {
-    return this.postsService.findAll({ isArticle: true, userId });
+    return this.postsService.findAllArticles({ userId });
   }
 
   @Get('posts/questions')

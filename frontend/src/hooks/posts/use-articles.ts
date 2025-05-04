@@ -9,3 +9,15 @@ export const useArticles = () => {
   
   return {articles: articles?.data ?? []}
 }
+
+export const useArticle = (articleId: number) => {
+  const { data: article, isLoading } = useQuery({
+    queryKey: ['articles', articleId],
+    queryFn: async () => await ARTICLE_SERVICE.getById(articleId)
+  })
+
+  return {
+    article: article?.data ?? null, 
+    isArticleLoading: isLoading
+  }
+}

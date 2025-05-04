@@ -4,6 +4,8 @@ import { Answer, Post, Tag } from '../../../generated/prisma';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CreatePostWithAuthorIdDto } from './dto/create-post.dto';
 import { FilterPostParameters } from './dto/filter-post-parametrs.dto';
+import { PostWithTagsAndAnswers } from './dto/post-with-tags-and-answers';
+import { PostWithTags } from './dto/post-with-tags';
 
 type GetPost = Post & { answers: Answer[], tags: Tag[] };
 
@@ -20,7 +22,19 @@ export class PostsRepository {
     } });
   }
 
-  public async findAllWithIncludedRelations(filter: FilterPostParameters): Promise<GetPost[]> {
+  public async findAllWithTags(filter: FilterPostParameters): Promise<PostWithTags[]> {
+    return this.prisma.post.findMany({ 
+      where: {
+        isArticle: filter.isArticle,
+        authorId: filter.userId
+      },
+      include: {
+        tags: true
+      }
+    });
+  }
+
+  public async findAllWithIncludedRelations(filter: FilterPostParameters): Promise<PostWithTagsAndAnswers[]> {
     return this.prisma.post.findMany({ 
       where: {
         isArticle: filter.isArticle,

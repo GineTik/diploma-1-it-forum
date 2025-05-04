@@ -7,6 +7,8 @@ import { PostsRepository } from './posts.repository';
 import { GetQuestionDto } from './dto/get-question.dto';
 import { plainToInstance } from 'class-transformer';
 import { FilterPostParameters } from './dto/filter-post-parametrs.dto';
+import { PostWithTags } from './dto/post-with-tags';
+import { GetArticleDto } from './dto/get-article.dto';
 
 @Injectable()
 export class PostsService {
@@ -34,8 +36,11 @@ export class PostsService {
     });
   }
 
-  async findAll(filter: FilterPostParameters): Promise<Post[]> {
-    return this.postsRepository.findAll(filter);
+  async findAllArticles(filter: Omit<FilterPostParameters, 'isArticle'>): Promise<GetArticleDto[]> {
+    return this.postsRepository.findAllWithIncludedRelations({
+      ...filter,
+      isArticle: true
+    });
   }
 
   async findAllQuestions(filter: Omit<FilterPostParameters, 'isArticle'>): Promise<GetQuestionDto[]> {
