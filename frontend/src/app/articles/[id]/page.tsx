@@ -29,25 +29,28 @@ export default function ArticlePage() {
     }
 
     return (
-        <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
-            <ArticleAuthorPanel 
-                authorId={article.authorId} 
-                setIsEditing={setIsEditing} 
-                isEditing={isEditing} 
-                articleId={Number(id)} 
-            />
+        <>
+            <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
+                <ArticleAuthorPanel 
+                    authorId={article.authorId} 
+                    setIsEditing={setIsEditing} 
+                    isEditing={isEditing} 
+                    articleId={Number(id)} 
+                />
+                
+                {isEditing
+                    ? <ArticleForm 
+                        action={(handleSubmit) => 
+                            <ArticleUpdateAction
+                                handleSubmit={handleSubmit}
+                                articleId={Number(id)}
+                                onSuccess={() => setIsEditing(false)} />}
+                        defaultValues={article} />
+                    : <Content article={article} />}
             
-            {isEditing
-                ? <ArticleForm 
-                    action={(handleSubmit) => 
-                        <ArticleUpdateAction
-                            handleSubmit={handleSubmit}
-                            articleId={Number(id)}
-                            onSuccess={() => setIsEditing(false)} />}
-                    defaultValues={article} />
-                : <Content article={article} />}
-        
-        </div>
+            </div>
+            <div className="h-[50vh]"></div>
+        </>
     )
 }
 

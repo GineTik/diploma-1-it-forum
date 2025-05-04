@@ -27,18 +27,21 @@ export default function QuestionPage() {
     }
 
     return (
-        <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
+        <>
+            <div className="w-full max-w-[800px] mx-auto pt-5 px-5 space-y-3">
         
-            <QuestionAuthorPanel postId={post.id} authorId={post.authorId} isEditing={isEditing} setIsEditing={setIsEditing} />
+                <QuestionAuthorPanel postId={post.id} authorId={post.authorId} isEditing={isEditing} setIsEditing={setIsEditing} />
+                
+                {isEditing
+                    ? <QuestionEditableContent post={post} setIsEditing={setIsEditing} />
+                    : <Content post={post} />}
+                
+                <AnswerForm postId={post.id} />
+                <AnswerList postId={post.id} authorId={post.authorId} />
             
-            {isEditing
-                ? <QuestionEditableContent post={post} setIsEditing={setIsEditing} />
-                : <Content post={post} />}
-            
-            <AnswerForm postId={post.id} />
-            <AnswerList postId={post.id} authorId={post.authorId} />
-        
-        </div>
+            </div>
+            <div className="h-[50vh]"></div>
+        </>
     )
 }
 
