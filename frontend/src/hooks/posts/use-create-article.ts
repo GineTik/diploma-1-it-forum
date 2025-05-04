@@ -9,7 +9,7 @@ export function useCreateArticle() {
     const {getToken} = useAuth();
     const router = useRouter();
 
-    const {mutate, isPending} = useMutation({
+    const {mutate, isPending, isSuccess} = useMutation({
         mutationKey: ['createArticle'],
         mutationFn: async (article: CreateOrUpdateArticleFormData) => {
             return await ARTICLE_SERVICE.create({
@@ -25,5 +25,6 @@ export function useCreateArticle() {
     return {
         createArticle: mutate,
         isArticlePending: isPending,
+        isArticleSuccess: isSuccess,
     }
 }

@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { useCreateArticle } from "@/hooks/posts";
 import { CreateOrUpdateArticleFormData } from "@/types";
-import { Loader2 } from "lucide-react";
 import { UseFormHandleSubmit } from "react-hook-form";
 
 type ArticleCreateActionProps = {
@@ -9,15 +8,15 @@ type ArticleCreateActionProps = {
 }
 
 export function ArticleCreateAction({handleSubmit}: ArticleCreateActionProps) {
-    const {createArticle, isArticlePending} = useCreateArticle();
+    const {createArticle, isArticlePending, isArticleSuccess} = useCreateArticle();
 
     return (
-        <Button 
+        <LoadingButton 
             variant="default" 
             onClick={handleSubmit((data) => createArticle(data))} 
-            disabled={isArticlePending}
+            isLoading={isArticlePending || isArticleSuccess}
         >
-            {isArticlePending ? <Loader2 className="animate-spin" size={12} /> : 'Опублікувати'}
-        </Button>
+            Опублікувати
+        </LoadingButton>
     )
 }

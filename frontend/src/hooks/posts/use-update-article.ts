@@ -20,6 +20,7 @@ export function useUpdateArticle(articleId: number) {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['articles']})
+            queryClient.invalidateQueries({queryKey: ['article', articleId]})
         }
     })
 

@@ -21,6 +21,7 @@ export const useSummarizePostActions = () => {
     summarizePost: (articleId: number) => summarizePostMutation.mutate(articleId),
     isSummarizing: summarizePostMutation.isPending,
     summarizeError: summarizePostMutation.error,
+    isSummarizeSuccess: summarizePostMutation.isSuccess,
   };
 };
 

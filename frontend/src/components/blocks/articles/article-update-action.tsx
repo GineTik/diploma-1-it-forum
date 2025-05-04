@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { useUpdateArticle } from "@/hooks/posts";
 import { CreateOrUpdateArticleFormData } from "@/types";
-import { Loader2 } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import { UseFormHandleSubmit } from "react-hook-form";
 
@@ -26,12 +25,12 @@ export function ArticleUpdateAction({handleSubmit, articleId, onSuccess}: Articl
     }, [onSuccess, isArticleSuccess])
 
     return (
-        <Button 
+        <LoadingButton 
             variant="default" 
             onClick={handleSubmit(submit)} 
-            disabled={isArticlePending}
+            isLoading={isArticlePending || isArticleSuccess}
         >
-            {isArticlePending ? <Loader2 className="animate-spin" size={12} /> : 'Оновити'}
-        </Button>
+            Оновити
+        </LoadingButton>
     )
 }

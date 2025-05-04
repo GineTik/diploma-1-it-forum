@@ -19,6 +19,10 @@ export class ArticlesServiceClass {
     public async update(id: number, article: CreateOrUpdatePostRequest, token: AuthToken) {
         return await api.patch(`/posts/${id}`, article, getAuthHeaders(token));
     }
+
+    public async delete(id: number, token: AuthToken) {
+        return await api.delete(`/posts/${id}`, getAuthHeaders(token));
+    }
 }
 
 export const ARTICLE_SERVICE = new ArticlesServiceClass();
