@@ -1,4 +1,4 @@
-import { IconDashboard, IconListDetails, IconDatabase, IconReport, IconFileWord } from "@tabler/icons-react";
+import { IconDashboard, IconListDetails, IconDatabase, IconReport } from "@tabler/icons-react";
 import { ROUTES } from "./routes.constants";
 
 export const SIDEBAR_ITEMS = {
