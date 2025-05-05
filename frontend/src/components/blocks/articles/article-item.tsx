@@ -21,7 +21,7 @@ export const ArticleItem = forwardRef<HTMLDivElement, ArticleItemProps>(
     return (
     <Card
         ref={ref}
-        className={cn("w-[300px] rounded-[.5rem] mb-4 transition-all p-0 border-transparent cursor-pointer hover:border-neutral-300 hover:dark:border-neutral-700", className)}
+        className={cn("w-[300px] rounded-[.5rem] mb-4 transition-all p-0 border-transparent cursor-pointer hover:border-neutral-300 hover:dark:border-neutral-700 max-sm:w-full", className)}
     >
         <CardContent className="px-4 py-3">
         <div className="flex flex-col space-y-2">

@@ -14,27 +14,11 @@ export const SIDEBAR_ITEMS = {
         icon: IconListDetails,
       },
     ],
-    navSecondary: [
-      {
-        title: "Settings",
-        url: "#",
-        icon: IconSettings,
-      },
-      {
-        title: "Get Help",
-        url: "#",
-        icon: IconHelp,
-      },
-      {
-        title: "Search",
-        url: "#",
-        icon: IconSearch,
-      },
-    ],
+    navSecondary: [],
     documents: [
       {
         name: "Мої статті",
-        url: "#",
+        url: ROUTES.PERSONAL_ARTICLES,
         icon: IconDatabase,
       },
       {
