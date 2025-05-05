@@ -2,6 +2,8 @@
 
 import {
   IconDots,
+  IconList,
+  IconPlus,
 } from "@tabler/icons-react"
 
 import {
@@ -11,6 +13,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
+import { ROUTES } from "@/contants/routes.constants"
 
 export function NavTags({
   items,
@@ -35,9 +39,11 @@ export function NavTags({
         ))}
       </SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton className="text-sidebar-foreground/70">
-          <IconDots className="text-sidebar-foreground/70" />
-          <span>More</span>
+        <SidebarMenuButton className="text-sidebar-foreground/70" asChild>
+          <Link href={ROUTES.TAGS}>
+            <IconList className="text-sidebar-foreground/70" />
+            <span>Усі теги</span>
+          </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarGroup>
