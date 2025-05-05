@@ -19,6 +19,10 @@ export class AnswersServiceClass {
     public async delete(answerId: number, token: AuthToken): Promise<void> {
         return await api.delete(`answers/${answerId}`, getAuthHeaders(token));
     }
+
+    public async markAsCorrect(answerId: number, token: AuthToken): Promise<void> {
+        return await api.patch(`answers/${answerId}/mark-as-correct`, {}, getAuthHeaders(token));
+    }
 }
 
 export const ANSWERS_SERVICE = new AnswersServiceClass();

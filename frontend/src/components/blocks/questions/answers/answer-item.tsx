@@ -7,6 +7,8 @@ import { useState } from "react";
 import { AnswerEditableContent } from "./answer-editable-content";
 import { StyledMarkdown } from "@/components/ui/styled-markdown/styled-markdown";
 import { PublishDates } from "@/components/ui/publish-dates";
+import { AnswerMarkAsCorrectAction } from "./answer-mark-as-correct-action";
+import { useAuth } from "@clerk/nextjs";
 
 type AnswerItemProps = {
     answer: AnswerResponse;
@@ -15,11 +17,15 @@ type AnswerItemProps = {
 
 export function AnswerItem({answer, postAuthorId}: AnswerItemProps) {
     const [isEditing, setIsEditing] = useState(false);
+    const { userId } = useAuth()
 
     return (
         <PostFormBlock key={answer.id} className="relative space-y-4">
             
-            <AnswerCorrectBarge isCorrect={answer.isCorrect} />
+            {answer.isCorrect
+                ? <AnswerCorrectBarge />
+                : postAuthorId === userId && <AnswerMarkAsCorrectAction answerId={answer.id} />}
+
             {isEditing
                 ? <AnswerEditableContent answerId={answer.id} content={answer.content} setIsEditing={setIsEditing} />
                 : <StyledMarkdown>{answer.content}</StyledMarkdown>}
