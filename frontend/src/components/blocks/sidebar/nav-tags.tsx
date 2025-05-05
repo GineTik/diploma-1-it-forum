@@ -1,9 +1,7 @@
 "use client"
 
 import {
-  IconDots,
   IconList,
-  IconPlus,
 } from "@tabler/icons-react"
 
 import {
