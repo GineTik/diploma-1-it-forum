@@ -16,6 +16,6 @@ export function AnswerMarkAsCorrectAction({ answerId }: AnswerMarkAsCorrectActio
         onClick={() => markAsCorrect(answerId)}
     >
         <CheckIcon className="w-4 h-4" />
-        Позначити як правильний
+        Позначити як правильну
     </LoadingButton>
 }
