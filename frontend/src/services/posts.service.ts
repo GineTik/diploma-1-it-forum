@@ -15,6 +15,10 @@ export class PostsServiceClass {
     public async delete(postId: number, token: AuthToken): Promise<void> {
         return await api.delete(`posts/${postId}`, getAuthHeaders(token));
     }
+
+    public async search(search: string) {
+        return await api.get<PostResponse[]>(`posts/all?search=${search}`);
+    }
 }
 
 export const POSTS_SERVICE = new PostsServiceClass();

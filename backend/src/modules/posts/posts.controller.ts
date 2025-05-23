@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Query, ParseBoolPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Query } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
@@ -10,6 +10,11 @@ import { ApiQuery } from '@nestjs/swagger';
 @Controller()
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
+
+  @Get('posts/all')
+  search(@Query('search') search: string) {
+    return this.postsService.search(search);
+  }
 
   @Post('posts/questions')
   @Auth()

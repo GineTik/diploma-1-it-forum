@@ -9,11 +9,18 @@ export class SyncClerkUserMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const payload = req[CLERK_PAYLOAD_KEY];
-    if (!payload || typeof payload !== 'object' || !payload['sub']) {
+
+    if (!payload) {
       return next();
     }
 
-    await this.userService.createIfNotExists({clerkId: payload['sub']});
+    const clerkId = payload['sub'];
+
+    if (!payload || typeof payload !== 'object' || !clerkId) {
+      return next();
+    }
+
+    await this.userService.createIfNotExists({ clerkId });
     next();
   }
 }

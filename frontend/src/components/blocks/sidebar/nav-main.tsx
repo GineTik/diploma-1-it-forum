@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { ROUTES } from "@/contants/routes.constants"
+import { SearchIcon } from "lucide-react"
 
 export function NavMain({
   items,

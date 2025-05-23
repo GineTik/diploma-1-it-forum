@@ -14,6 +14,7 @@ export type PostResponse = {
     content: string;
     tags: TagResponse[];
     authorId: string;
+    isArticle: boolean;
 }
 
 export const createQuestionSchema = z.object({

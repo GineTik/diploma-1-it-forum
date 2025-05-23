@@ -7,7 +7,6 @@ import { PostsRepository } from './posts.repository';
 import { GetQuestionDto } from './dto/get-question.dto';
 import { plainToInstance } from 'class-transformer';
 import { FilterPostParameters } from './dto/filter-post-parametrs.dto';
-import { PostWithTags } from './dto/post-with-tags';
 import { GetArticleDto } from './dto/get-article.dto';
 
 @Injectable()
@@ -18,6 +17,10 @@ export class PostsService {
     private readonly postsRepository: PostsRepository,
   ) {
 
+  }
+
+  async search(search: string): Promise<Post[]> {
+    return this.postsRepository.search(search);
   }
 
   async createQuestion(createPostDto: CreatePostDto, id: string): Promise<Post> {

@@ -15,6 +15,12 @@ export class PostsRepository {
     private readonly prisma: PrismaService,
   ) {}
 
+  public async search(search: string): Promise<Post[]> {
+    return this.prisma.post.findMany({ where: {
+      title: { contains: search, mode: 'insensitive' }
+    } });
+  }
+
   public async findAll(filter: FilterPostParameters): Promise<Post[]> {
     return this.prisma.post.findMany({ where: {
       isArticle: filter.isArticle,

@@ -9,6 +9,7 @@ class Routes {
     PERSONAL_ARTICLES = "/articles/personal";
     QUESTION = (id: number) => `/questions/${id}`;
     ARTICLE = (id: number) => `/articles/${id}`;
+    SEARCH = "/search";
 }
 
 export const ROUTES = new Routes();

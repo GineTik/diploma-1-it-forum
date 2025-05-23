@@ -1,4 +1,4 @@
-import { IconDashboard, IconListDetails, IconDatabase, IconReport } from "@tabler/icons-react";
+import { IconDashboard, IconListDetails, IconDatabase, IconReport, IconSearch } from "@tabler/icons-react";
 import { ROUTES } from "./routes.constants";
 
 export const SIDEBAR_ITEMS = {
@@ -12,6 +12,11 @@ export const SIDEBAR_ITEMS = {
         title: "Усі питання",
         url: ROUTES.QUESTIONS,
         icon: IconListDetails,
+      },
+      {
+        title: "Пошук",
+        url: ROUTES.SEARCH,
+        icon: IconSearch,
       },
     ],
     navSecondary: [],
