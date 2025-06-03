@@ -1,5 +1,12 @@
-import { Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
-import { CreatePostDto, CreatePostWithAuthorIdDto } from './dto/create-post.dto';
+import {
+  Injectable,
+  NotFoundException,
+  NotImplementedException,
+} from '@nestjs/common';
+import {
+  CreatePostDto,
+  CreatePostWithAuthorIdDto,
+} from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from 'generated/prisma';
 import { OpenRouterService } from 'src/common/ai/openrouter.service';
@@ -11,23 +18,23 @@ import { GetArticleDto } from './dto/get-article.dto';
 
 @Injectable()
 export class PostsService {
-
   constructor(
     private readonly openRouterService: OpenRouterService,
     private readonly postsRepository: PostsRepository,
-  ) {
-
-  }
+  ) {}
 
   async search(search: string): Promise<Post[]> {
     return this.postsRepository.search(search);
   }
 
-  async createQuestion(createPostDto: CreatePostDto, id: string): Promise<Post> {
+  async createQuestion(
+    createPostDto: CreatePostDto,
+    id: string,
+  ): Promise<Post> {
     return this.postsRepository.create({
       ...createPostDto,
       authorId: id,
-      isArticle: false
+      isArticle: false,
     });
   }
 
@@ -35,28 +42,35 @@ export class PostsService {
     return this.postsRepository.create({
       ...createPostDto,
       authorId: id,
-      isArticle: true
+      isArticle: true,
     });
   }
 
-  async findAllArticles(filter: Omit<FilterPostParameters, 'isArticle'>): Promise<GetArticleDto[]> {
+  async findAllArticles(
+    filter: Omit<FilterPostParameters, 'isArticle'>,
+  ): Promise<GetArticleDto[]> {
     return this.postsRepository.findAllWithIncludedRelations({
       ...filter,
-      isArticle: true
+      isArticle: true,
     });
   }
 
-  async findAllQuestions(filter: Omit<FilterPostParameters, 'isArticle'>): Promise<GetQuestionDto[]> {
+  async findAllQuestions(
+    filter: Omit<FilterPostParameters, 'isArticle'>,
+  ): Promise<GetQuestionDto[]> {
     const questions = await this.postsRepository.findAllWithIncludedRelations({
       ...filter,
-      isArticle: false
+      isArticle: false,
     });
-    return plainToInstance(GetQuestionDto, questions.map(question => ({
-      ...question,
-      answersCount: question.answers.length,
-      haveCorrectAnswer: question.answers.some(answer => answer.isCorrect),
-      tags: question.tags
-    })));
+    return plainToInstance(
+      GetQuestionDto,
+      questions.map((question) => ({
+        ...question,
+        answersCount: question.answers.length,
+        haveCorrectAnswer: question.answers.some((answer) => answer.isCorrect),
+        tags: question.tags,
+      })),
+    );
   }
 
   async findOne(id: number): Promise<Post | undefined> {
@@ -67,11 +81,14 @@ export class PostsService {
     return this.postsRepository.findAllByAuthorId(authorId);
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post | undefined> {
+  async update(
+    id: number,
+    updatePostDto: UpdatePostDto,
+  ): Promise<Post | undefined> {
     return this.postsRepository.update(id, updatePostDto);
   }
 
-  async remove(id: number): Promise<Post | undefined> {
+  async remove(id: number): Promise<void> {
     return this.postsRepository.remove(id);
   }
 
@@ -80,7 +97,7 @@ export class PostsService {
     if (!post) {
       throw new NotFoundException(`Post with ID ${postId} not found`);
     }
-    
+
     const prompt = `
       Make a short excerpt from the content of the post with title "${post.title}" and content "${post.content}".
 

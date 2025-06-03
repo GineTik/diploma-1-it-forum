@@ -7,64 +7,75 @@ import { FilterPostParameters } from './dto/filter-post-parametrs.dto';
 import { PostWithTagsAndAnswers } from './dto/post-with-tags-and-answers';
 import { PostWithTags } from './dto/post-with-tags';
 
-type GetPost = Post & { answers: Answer[], tags: Tag[] };
+type GetPost = Post & { answers: Answer[]; tags: Tag[] };
 
 @Injectable()
 export class PostsRepository {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   public async search(search: string): Promise<Post[]> {
-    return this.prisma.post.findMany({ where: {
-      title: { contains: search, mode: 'insensitive' }
-    } });
-  }
-
-  public async findAll(filter: FilterPostParameters): Promise<Post[]> {
-    return this.prisma.post.findMany({ where: {
-      isArticle: filter.isArticle,
-      authorId: filter.userId
-    } });
-  }
-
-  public async findAllWithTags(filter: FilterPostParameters): Promise<PostWithTags[]> {
-    return this.prisma.post.findMany({ 
+    return this.prisma.post.findMany({
       where: {
-        isArticle: filter.isArticle,
-        authorId: filter.userId
+        title: { contains: search, mode: 'insensitive' },
       },
-      include: {
-        tags: true
-      }
     });
   }
 
-  public async findAllWithIncludedRelations(filter: FilterPostParameters): Promise<PostWithTagsAndAnswers[]> {
-    return this.prisma.post.findMany({ 
+  public async findAll(filter: FilterPostParameters): Promise<Post[]> {
+    return this.prisma.post.findMany({
       where: {
         isArticle: filter.isArticle,
-        authorId: filter.userId
+        authorId: filter.userId,
+      },
+    });
+  }
+
+  public async findAllWithTags(
+    filter: FilterPostParameters,
+  ): Promise<PostWithTags[]> {
+    return this.prisma.post.findMany({
+      where: {
+        isArticle: filter.isArticle,
+        authorId: filter.userId,
+      },
+      include: {
+        tags: true,
+      },
+    });
+  }
+
+  public async findAllWithIncludedRelations(
+    filter: FilterPostParameters,
+  ): Promise<PostWithTagsAndAnswers[]> {
+    return this.prisma.post.findMany({
+      where: {
+        isArticle: filter.isArticle,
+        authorId: filter.userId,
       },
       include: {
         answers: true,
-        tags: true
-      }
+        tags: true,
+      },
     });
   }
 
   public async findOneWithTags(id: number): Promise<Post> {
-    return this.prisma.post.findUnique({ where: { id }, include: { tags: true } });
+    return this.prisma.post.findUnique({
+      where: { id },
+      include: { tags: true },
+    });
   }
 
   public async create(post: CreatePostWithAuthorIdDto): Promise<Post> {
     console.log(post);
-    return this.prisma.post.create({ data: {
-        ...post, 
-        tags: { 
-          connect: post.tags.map(tag => ({ id: tag }))
-        }
-    }});
+    return this.prisma.post.create({
+      data: {
+        ...post,
+        tags: {
+          connect: post.tags.map((tag) => ({ id: tag })),
+        },
+      },
+    });
   }
 
   public async update(id: number, post: Partial<UpdatePostDto>): Promise<Post> {
@@ -76,17 +87,20 @@ export class PostsRepository {
       data: {
         ...post,
         tags: {
-          connect: post.tags.map(tag => ({ id: tag }))
-        }
+          connect: post.tags.map((tag) => ({ id: tag })),
+        },
       },
     });
   }
 
-  public async remove(id: number): Promise<Post> {
+  public async remove(id: number): Promise<void> {
     if (!(await this.exists(id))) {
       throw new NotFoundException('Post not found');
     }
-    return this.prisma.post.delete({ where: { id } });
+    await this.prisma.$transaction(async (tx) => {
+      await tx.answer.deleteMany({ where: { postId: id } });
+      return await tx.post.delete({ where: { id } });
+    });
   }
 
   public async exists(id: number): Promise<boolean> {
